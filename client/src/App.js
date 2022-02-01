@@ -1,17 +1,46 @@
 import './App.css';
 import Header from './components/Header';
+import { useState, useEffect } from 'react';
 
 import Button from 'react-bootstrap/Button'
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/me").then((res) => {
+      if (res.ok) {
+        res.json().then((user) => {
+          setCurrentUser(user);
+          setIsAuthenticated(true);
+        });
+      }
+    });
+  }, []);
+
+  if (!isAuthenticated) {
+    return (
+    <div>
+      <Header />
+      <body>
+        <Button>
+          Please log in!
+        </Button>
+      </body>
+    </div>
+    );
+  }
+
   return (
     <div className="App">
+      <Router>{false ? <LoggedIn /> : <LoggedOut />}</Router>
       <header className="App-header">
         <Header />
       </header>
       <body>
         <Button>
-          I am a React button!
+          You're logged in!
         </Button>
       </body>
       <link
