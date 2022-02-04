@@ -17,7 +17,7 @@ class Api::TradeOffersController < ApplicationController
         offer = TradeOffer.create!(offer_params)
         render json: offer, status: :created
     end
-
+    
     def update
         offer = find_offer
         TradeOffer.update!(offer_params)
