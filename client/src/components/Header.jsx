@@ -57,9 +57,9 @@ function Header() {
   };
 
   const plantSwap = (
-    <typography variant="h6" component="h1" className={logo}>
+    <Typography variant="h6" component="h1" className={logo}>
       PlantSwap
-    </typography>
+    </Typography>
   )
 
   const getMenuButtons = () => {

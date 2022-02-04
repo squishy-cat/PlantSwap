@@ -2,28 +2,6 @@ class Api::UsersController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
 
-    # Login management
-
-    def display
-        if current_user
-            render json: current_user, status: :ok
-        else
-            render json: "No current session stored", status: :unauthorized
-        end
-    end
-
-    def signup
-        user = User.create(user_params)
-            if user.valid?
-                session[:user_id] = user.id
-                render json: user, status: :ok
-            else
-                render json: user.errors.full_messages, status: :unprocessable_entity
-            end
-    end
-
-    # Actual endpoints go here
-
     def index
         users = User.all
         render json: users, each_serializer: UserWithPlantsSerializer

@@ -1,5 +1,9 @@
 import './App.css';
 import Header from './components/Header';
+import HomePage from './components/HomePage';
+import ViewPlants from './components/ViewPlants';
+import ViewTrades from './components/ViewTrades';
+import { Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import Button from 'react-bootstrap/Button'
@@ -23,24 +27,23 @@ function App() {
     return (
     <div>
       <Header />
-      <body>
+      <div>
         <Button>
           Please log in!
         </Button>
-      </body>
+      </div>
     </div>
     );
   }
 
   return (
     <div className="App">
-      <Router>{false ? <LoggedIn /> : <LoggedOut />}</Router>
       <header className="App-header">
         <Header />
       </header>
       <body>
         <Button>
-          You're logged in!
+          Please log in!
         </Button>
       </body>
       <link
