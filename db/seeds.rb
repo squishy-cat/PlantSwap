@@ -12,9 +12,10 @@ user = User.create(
     name: "Eve",
     bio: "I love plants!",
     address: "Brooklyn, NY",
-    photo: "https://www.history.com/.image/,ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTg0NTEzNzgyNTMyNDE2OTk5/black-cat-gettyimages-901574784.jpg",
-    fav_plant: ["Tomato", "Orchids"],
-    interested_in: ["Orchids", "Peppers"]
+    photo: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-photos-of-cats-curled-up-sleeping-1593184773.jpg",
+    fav_plant: "Tomato, Orchids",
+    interested_in: "Orchids and Peppers",
+    password: "123"
 )
 
 plant = Plant.create(
@@ -23,7 +24,7 @@ plant = Plant.create(
     picture: "https://upload.wikimedia.org/wikipedia/commons/8/80/Gynura_aurantiaca.jpg",
     phase: "Rooted cutting",
     care_instructions: "Likes bright morning light and lots of water",
-    pet_safe: ["Cats", "Dogs"],
+    pet_safe: "Cats and Dogs",
     user_id: 1
 )
 

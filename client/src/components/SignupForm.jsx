@@ -18,7 +18,7 @@ const SignupForm = () => {
 
     const userCreds = { ...formData };
 
-    fetch("/users", {
+    fetch("/users/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
