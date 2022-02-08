@@ -8,7 +8,7 @@ class UsersController < ApplicationController
         end
     end
     
-    def signup
+    def create
         user = User.create(user_params)
             if user.valid?
                 session[:user_id] = user.id
@@ -16,6 +16,12 @@ class UsersController < ApplicationController
             else
                 render json: user.errors.full_messages, status: :unprocessable_entity
             end
+    end
+
+    private
+
+    def user_params
+        params.permit(:name, :email, :password, :password_confirmation, :bio, :address, :photo, :fav_plant, :interested_in, :user)
     end
 
 end

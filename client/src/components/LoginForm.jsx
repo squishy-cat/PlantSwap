@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal"
-import Button from "react-bootstrap/Button"
 
-function LoginForm( {...props} ) {
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+
+import SignupForm from "./SignupForm";
+
+function LoginForm(props) {
+  const [signUp, setSignUp] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -14,6 +19,9 @@ function LoginForm( {...props} ) {
       [e.target.name]: e.target.value,
     });
   };
+
+  const { show, ...rest } = props
+
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch("/login", {
@@ -25,7 +33,8 @@ function LoginForm( {...props} ) {
     }).then((res) => {
       if (res.ok) {
         res.json().then((user) => {
-          props.setCurrentUser(user);
+          rest.setCurrentUser(user);
+          rest.setModalShow(false);
         });
       } else {
         res.json().then((errors) => {
@@ -35,54 +44,97 @@ function LoginForm( {...props} ) {
     });
   };
 
-  const handleLogout = () => {
-    fetch('/logout', {method: "DELETE"})
-    .then(res => {
-          if (res.ok) {
-            props.setCurrentUser(null)
-          }
-        })
+  if (signUp===false) {
+    return (
+      <Modal
+        show = {show}
+        {...rest} 
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Please login!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3"> 
+                <Form.Label htmlFor="name">Name:</Form.Label>
+                <Form.Control
+                  id="name-input"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+                <Form.Label htmlFor="password">Password:</Form.Label>
+                <Form.Control
+                  id="password-input"
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              <Button 
+                type="submit" 
+                variant="success"
+              >
+                Submit
+              </Button>
+              <Button 
+                onClick={() => setSignUp(true)}
+                variant="warning"
+                className="mx-2"
+              >
+                Sign up
+              </Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button 
+            onClick={rest.onHideFunction}
+            variant="outline-success"
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      );
   }
 
   return (
     <Modal
-      {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      show={signUp}
+      setSignUp={setSignUp}
+      {...rest}
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Please login!
+          Please Sign Up!
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Name:</label>
-          <input
-            id="name-input"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            id="password-input"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <Button type="submit">Submit</Button>
-          <Button onClick={handleLogout}>Logout</Button>
-        </form>
+        <SignupForm 
+          setCurrentUser = {rest.setCurrentUser}
+          setModalShow = {rest.setModalShow}
+        />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHideFunction}>Close</Button>
+        <Button 
+          onClick={() => setSignUp(false)}
+          variant="outline-success"
+        >
+          Cancel
+        </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 };
 
 export default LoginForm;
