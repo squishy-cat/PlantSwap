@@ -1,90 +1,72 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, makeStyles, Button } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
 
-const useStyles = makeStyles(() => ({
-  header: {
-    backgroundColor: "darkgreen",
-    paddingRight: "79px",
-    paddingLeft: "118px",
-  },
-  logo: {
-    fontFamily: "Work Sans, sans-serif",
-    fontWeight: 600,
-    color: "#FFFEFE",
-    textAlign: "left",
-  },
-  menuButton: {
-    fontFamily: "Open Sans, sans-serif",
-    fontWeight: 700,
-    size: "18px",
-    marginLeft: "38px",
-  },
-  toolbarButtons: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}));
+import LoginForm from "./LoginForm";
 
+import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import FormControl from 'react-bootstrap/FormControl'
 
-const headersData = [
-  {
-    label: "Listings",
-    href: "/listings",
-  },
-  {
-    label: "Mentors",
-    href: "/mentors",
-  },
-  {
-    label: "My Account",
-    href: "/account",
-  },
-  {
-    label: "Log Out",
-    href: "/logout",
-  },
-];
+function Header ( {show, onHideFunction, onClickFunction, currentUser, setCurrentUser} ) {
+  return(
+    <div>
+      <Navbar
+      {...onHideFunction} 
+      bg="light" 
+      expand="lg"
+      >
+        <Container fluid>
+          <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: '100px' }}
+              navbarScroll
+            >
+              <Nav.Link href="#action1">Home</Nav.Link>
+              <Nav.Link href="#action2">Link</Nav.Link>
+              <NavDropdown title="Link" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action5">
+                  Something else here
+                </NavDropdown.Item>
+              </NavDropdown>
+              <Nav.Link href="#" disabled>
+                Link
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+            <Button variant="primary" onClick={onClickFunction}>
+                Please log in!
+            </Button>
+            <LoginForm
+              show={show}
+              onHideFunction={onHideFunction}
+              onClickFunction={onClickFunction}
 
-function Header() {
-  const { header, logo, menuButton, toolbarButtons } = useStyles();
-
-  const displayDesktop = () => {
-    return <Toolbar className={toolbarButtons}>
-    {plantSwap}
-    <div>{getMenuButtons()}</div>
-  </Toolbar>
-  };
-
-  const plantSwap = (
-    <Typography variant="h6" component="h1" className={logo}>
-      PlantSwap
-    </Typography>
+              currentUser = {currentUser}
+              setCurrentUser = {setCurrentUser}
+              >
+            </LoginForm>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </div>
   )
-
-  const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Button
-          {...{
-            key: label,
-            color: "inherit",
-            to: href,
-            component: RouterLink,
-            className: menuButton
-          }}
-        >
-          {label}
-        </Button>
-      );
-    });
-  };
-  
-  return (
-    <header>
-      <AppBar className={header}>{displayDesktop()}</AppBar>
-    </header>
-  );
 }
 
 export default Header;

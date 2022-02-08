@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 
-const LoginForm = () => {
+function LoginForm( {...props} ) {
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     password: "",
   });
 
@@ -23,7 +25,7 @@ const LoginForm = () => {
     }).then((res) => {
       if (res.ok) {
         res.json().then((user) => {
-          setCurrentUser(user);
+          props.setCurrentUser(user);
         });
       } else {
         res.json().then((errors) => {
@@ -37,32 +39,49 @@ const LoginForm = () => {
     fetch('/logout', {method: "DELETE"})
     .then(res => {
           if (res.ok) {
-            setCurrentUser(null)
+            props.setCurrentUser(null)
           }
         })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="username">Username:</label>
-      <input
-        id="username-input"
-        type="text"
-        name="username"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        id="password-input"
-        type="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <button type="submit">Submit</button>
-      <button onClick={handleLogout}>Logout</button>
-    </form>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Please login!
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">Name:</label>
+          <input
+            id="name-input"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password-input"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <Button type="submit">Submit</Button>
+          <Button onClick={handleLogout}>Logout</Button>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHideFunction}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

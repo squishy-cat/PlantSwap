@@ -1,16 +1,20 @@
 import './App.css';
 import Header from './components/Header';
-import HomePage from './components/HomePage';
-import ViewPlants from './components/ViewPlants';
-import ViewTrades from './components/ViewTrades';
-import { Router } from 'react-router-dom';
+// import HomePage from './components/HomePage';
+// import ViewTrades from './components/ViewTrades';
+import LoginForm from './components/LoginForm'
+// import { Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import Button from 'react-bootstrap/Button'
 
+import ViewPlants from './components/ViewPlants';
+
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -26,32 +30,40 @@ function App() {
   if (!isAuthenticated) {
     return (
     <div>
-      <Header />
+      <Header 
+        show={modalShow}
+        onClickFunction={() => setModalShow(true)}
+        onHideFunction={() => setModalShow(false)}
+
+        currentUser = {currentUser}
+        authed = {isAuthenticated}
+      />
       <div>
-        <Button>
-          Please log in!
-        </Button>
+        <ViewPlants />
       </div>
     </div>
     );
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
-      <body>
-        <Button>
+    <div>
+      <Header />
+      <div>
+        <Button variant="primary" onClick={() => setModalShow(true)}>
           Please log in!
         </Button>
-      </body>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-        crossorigin="anonymous"
-      />
+        <LoginForm
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+
+          currentUser = {currentUser}
+          setCurrentUser = {setCurrentUser}
+        >
+        </LoginForm>
+      </div>
+      <div>
+        <ViewPlants />
+      </div>
     </div>
   );
 }
