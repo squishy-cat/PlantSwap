@@ -2,8 +2,6 @@ import './App.css';
 import Header from './components/Header';
 import ViewPlants from './components/ViewPlants';
 
-// import HomePage from './components/HomePage';
-// import ViewTrades from './components/ViewTrades';
 // import { Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -12,6 +10,7 @@ function App() {
   const [modalShow, setModalShow] = useState(false);
   const [allPlants, setAllPlants] = useState([]);
   const [loaded, setLoaded] = useState(false)
+  const [newPlantModal, setNewPlantModal] = useState(false);
 
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -38,6 +37,14 @@ function App() {
 
   const onHideFunction = () => {
     setModalShow(false)
+  }
+
+  const showNewPlant = () => {
+    setNewPlantModal(true)
+  }
+
+  const hideNewPlant = () => {
+    setNewPlantModal(false)
   }
 
 // fetch all plants
@@ -68,8 +75,13 @@ const getUserPlants = () => {
         onHideFunction={onHideFunction}
         setModalShow={setModalShow}
 
-        currentUser = {currentUser}
         setCurrentUser = {setCurrentUser}
+        currentUser = {currentUser}
+
+        newPlant={newPlantModal}
+        setNewPlant={setNewPlantModal}
+        showNewPlant={showNewPlant}
+        hideNewPlant={hideNewPlant}
       />
       <h2>Listed Plants</h2>
       <ViewPlants 
@@ -86,6 +98,14 @@ const getUserPlants = () => {
     <div>
       <Header
         handleLogout = {handleLogout}
+
+        newPlant={newPlantModal}
+        setNewPlant={setNewPlantModal}
+        showNewPlant={showNewPlant}
+        hideNewPlant={hideNewPlant}
+
+        currentUser = {currentUser}
+        getPlants = {getAllPlants}        
       />
       <h2>Listed Plants</h2>
       <ViewPlants 

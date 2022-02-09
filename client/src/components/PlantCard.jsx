@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "react-bootstrap/Card"
-import ListGroup from 'react-bootstrap/ListGroup'
-import ListGroupItem from "react-bootstrap/esm/ListGroupItem";
+
+import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 function PlantCard({name, img, phase, petSafe, careInstructions}) {
+
     return (
         <div>
             <Card 

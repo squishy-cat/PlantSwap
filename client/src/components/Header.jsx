@@ -2,15 +2,9 @@ import React from "react";
 import "./Header.css"
 
 import LoginForm from "./LoginForm";
+import NewPlant from "./NewPlant";
 
-import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import FormControl from 'react-bootstrap/FormControl'
-import Image from 'react-bootstrap/Image'
+import { Navbar, Container, Nav, NavDropdown, Form, Button, FormControl, Image } from 'react-bootstrap'
 
 import logo from '../assets/logo-seedling.jpg'
 
@@ -100,6 +94,18 @@ return(
                 <NavDropdown.Item href="#action3">View</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">Edit</NavDropdown.Item>
               </NavDropdown>
+              <Button
+                variant="outline-success"
+                onClick={() => props.setNewPlant(true)}
+              >Add Plant
+              </Button>
+              <NewPlant 
+                show={props.newPlant}
+                setShow={props.setNewPlant}
+                onHide={props.hideNewPlant}
+                currentUser={props.currentUser.id}
+                getPlants={props.getPlants}
+              />
             </Nav>
             <Form className="d-flex">
               <FormControl

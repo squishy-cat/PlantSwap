@@ -29,7 +29,7 @@ class Api::PlantsController < ApplicationController
         render json: plant
     end
 
-    def delete
+    def destroy
         plant = find_plant
         plant.destroy
     end
