@@ -1,7 +1,11 @@
 import React from "react";
 
 function EditProfile() {
-    return "Editing profile"
+    return (
+        <div>
+            A user can edit their profile here
+        </div>
+    )
 }
 
 export default EditProfile;

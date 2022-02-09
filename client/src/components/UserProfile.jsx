@@ -1,7 +1,11 @@
 import React from "react";
 
 function UserProfile() {
-    return "Viewing Profile"
+    return (
+        <div>
+            I'm a user profile
+        </div>
+    )
 }
 
 export default UserProfile;

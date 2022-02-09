@@ -2,7 +2,6 @@ import './App.css';
 import Header from './components/Header';
 import ViewPlants from './components/ViewPlants';
 
-// import { Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -64,30 +63,34 @@ const getUserPlants = () => {
   return allPlants.filter(plant => plant.user_id===currentUser.id)
 }
 
+const renderListedPlants = () => {
+  return allPlants.filter(plant => plant.listed===true)
+}
+
 // render if user is logged out
 
   if (!currentUser) {
     return (
     <div>
-      <Header 
-        show={modalShow}
-        onClickFunction={onClickFunction}
-        onHideFunction={onHideFunction}
-        setModalShow={setModalShow}
+        <Header 
+          show={modalShow}
+          onClickFunction={onClickFunction}
+          onHideFunction={onHideFunction}
+          setModalShow={setModalShow}
 
-        setCurrentUser = {setCurrentUser}
-        currentUser = {currentUser}
+          setCurrentUser = {setCurrentUser}
+          currentUser = {currentUser}
 
-        newPlant={newPlantModal}
-        setNewPlant={setNewPlantModal}
-        showNewPlant={showNewPlant}
-        hideNewPlant={hideNewPlant}
-      />
-      <h2>Listed Plants</h2>
-      <ViewPlants 
-        allPlants={allPlants}
-        loaded={loaded}
-      />
+          newPlant={newPlantModal}
+          setNewPlant={setNewPlantModal}
+          showNewPlant={showNewPlant}
+          hideNewPlant={hideNewPlant}
+        />
+        <h2>Listed Plants</h2>
+        <ViewPlants 
+          allPlants={renderListedPlants()}
+          loaded={loaded}
+        />
     </div>
     );
   }
@@ -96,26 +99,26 @@ const getUserPlants = () => {
 
   return (
     <div>
-      <Header
-        handleLogout = {handleLogout}
+        <Header
+          handleLogout = {handleLogout}
 
-        newPlant={newPlantModal}
-        setNewPlant={setNewPlantModal}
-        showNewPlant={showNewPlant}
-        hideNewPlant={hideNewPlant}
+          newPlant={newPlantModal}
+          setNewPlant={setNewPlantModal}
+          showNewPlant={showNewPlant}
+          hideNewPlant={hideNewPlant}
 
-        currentUser = {currentUser}
-        getPlants = {getAllPlants}        
-      />
-      <h2>Listed Plants</h2>
-      <ViewPlants 
-        allPlants={allPlants}
-      />
-      <br />
-      <h2>My Plants</h2>
-      <ViewPlants 
-        allPlants={getUserPlants()}
-      />
+          currentUser = {currentUser}
+          getPlants = {getAllPlants}        
+        />
+        <h2>Listed Plants</h2>
+        <ViewPlants 
+          allPlants={renderListedPlants()}
+        />
+        <br />
+        <h2>My Plants</h2>
+        <ViewPlants 
+          allPlants={getUserPlants()}
+        />
     </div>
   );
 }

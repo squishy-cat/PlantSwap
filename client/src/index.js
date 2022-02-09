@@ -1,15 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { 
+  BrowserRouter, Route, Routes
+} from "react-router-dom"
+
 import './index.css';
+
 import App from './App';
+import HomePage from './components/HomePage'
+import UserProfile from './components/UserProfile'
+import EditProfile from './components/EditProfile'
+
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+
+render(
+  <BrowserRouter>
+    <Routes> 
+      <Route path="/" element = {<App />}>
+        <Route index element = {<HomePage />} />
+        <Route path="profile" element = {<UserProfile />}>
+          <Route path="edit" element = {<EditProfile />} />
+        </Route>
+      </Route>
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

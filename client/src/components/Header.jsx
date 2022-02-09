@@ -34,8 +34,8 @@ function Header(props) {
               <Nav.Link href="#action1">My Plants</Nav.Link>
               <Nav.Link href="#action2">My Trades</Nav.Link>
               <NavDropdown title="My Profile" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">View</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Edit</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
+                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form className="d-flex">
@@ -91,8 +91,8 @@ return(
               <Nav.Link href="#action1">My Plants</Nav.Link>
               <Nav.Link href="#action2">My Trades</Nav.Link>
               <NavDropdown title="My Profile" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">View</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Edit</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
+                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
               </NavDropdown>
               <Button
                 variant="outline-success"

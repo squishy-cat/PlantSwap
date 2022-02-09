@@ -25,7 +25,8 @@ plant = Plant.create(
     phase: "Rooted cutting",
     care_instructions: "Likes bright morning light and lots of water",
     pet_safe: "Cats and Dogs",
-    user_id: 1
+    user_id: 1,
+    listed: true
 )
 
 TradeListing.create(
