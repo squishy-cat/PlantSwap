@@ -5,7 +5,7 @@ class Api::PlantsController < ApplicationController
 
     def index
         plants = Plant.all
-        render json: plants, serializer: PlantSerializer
+        render json: plants
     end
 
     def show
