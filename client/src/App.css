@@ -16,3 +16,11 @@
 .App-link {
   color: #61dafb;
 }
+
+h2 {
+  color: darkgreen;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: small;
+  margin-left: 15px;
+  margin-bottom: 50px;
+}
