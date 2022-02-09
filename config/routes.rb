@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [:index, :show, :create, :update, :destroy, :display, :signup]
     resources :plants, only: [:index, :show, :create, :update, :destroy]
-    resources :trade_listings, only: [:index, :show, :create, :update, :destroy]
+    resources :trade_listings, only: [:index, :show, :create, :update, :destroy, :show_plants]
     resources :trade_offers, only: [:index, :show, :create, :update, :destroy]
+
+    get 'plant-listings', to: "plants#show_listing"
   end
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

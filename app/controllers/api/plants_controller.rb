@@ -13,6 +13,11 @@ class Api::PlantsController < ApplicationController
         render json: plant
     end
 
+    def show_listings
+        plants = Plant.all
+        render json: plants, each_serializer: PlantTradeListingSerializer
+    end
+
     def create
         plant = Plant.create!(plant_params)
         render json: plant, status: :created

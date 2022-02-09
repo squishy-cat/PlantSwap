@@ -7,9 +7,6 @@ import ViewPlants from './components/ViewPlants';
 // import { Router } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-import background from './assets/footer-plants.jpg';
-
-
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [modalShow, setModalShow] = useState(false);
@@ -48,12 +45,17 @@ function App() {
   const getAllPlants = () => {
     fetch("/api/plants")
     .then((res) => res.json())
-    // .then(setTimeout(() => {setLoaded(true); }, 2000))
     .then((plants) => setAllPlants(plants))
     .then(setLoaded(true))
   }
 
   useEffect(getAllPlants, []);
+
+// fetch user's own plants
+
+const getUserPlants = () => {
+  return allPlants.filter(plant => plant.user_id===currentUser.id)
+}
 
 // render if user is logged out
 
@@ -69,6 +71,7 @@ function App() {
         currentUser = {currentUser}
         setCurrentUser = {setCurrentUser}
       />
+      <h2>Listed Plants</h2>
       <ViewPlants 
         allPlants={allPlants}
         loaded={loaded}
@@ -84,7 +87,15 @@ function App() {
       <Header
         handleLogout = {handleLogout}
       />
-      <ViewPlants />
+      <h2>Listed Plants</h2>
+      <ViewPlants 
+        allPlants={allPlants}
+      />
+      <br />
+      <h2>My Plants</h2>
+      <ViewPlants 
+        allPlants={getUserPlants()}
+      />
     </div>
   );
 }
