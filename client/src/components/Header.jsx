@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import "./Header.css"
 
 import LoginForm from "./LoginForm";
@@ -10,6 +10,25 @@ import logo from '../assets/logo-seedling.jpg'
 
 function Header(props) {
 
+  const [modalShow, setModalShow] = useState(false);
+  const [newPlantModal, setNewPlantModal] = useState(false);
+
+  const onClickFunction = () => {
+    setModalShow(true)
+  }
+
+  const onHideFunction = () => {
+    setModalShow(false)
+  }
+
+  const showNewPlant = () => {
+    setNewPlantModal(true)
+  }
+
+  const hideNewPlant = () => {
+    setNewPlantModal(false)
+  }
+
   if (props.currentUser===null) {
     return (
       <Navbar
@@ -17,7 +36,7 @@ function Header(props) {
         expand="lg"
         >
         <Container fluid>
-          <Navbar.Brand href="home">
+          <Navbar.Brand href="/">
             <Image 
               src={logo} 
               alt="Logo" 
@@ -31,9 +50,9 @@ function Header(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#action1">My Plants</Nav.Link>
-              <Nav.Link href="#action2">My Trades</Nav.Link>
-              <NavDropdown title="My Profile" id="navbarScrollingDropdown">
+              <Nav.Link href="#" disabled>My Plants</Nav.Link>
+              <Nav.Link href="#" disabled>My Trades</Nav.Link>
+              <NavDropdown title="My Profile" id="navbarScrollingDropdown" disabled>
                 <NavDropdown.Item href="/profile">View</NavDropdown.Item>
                 <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
               </NavDropdown>
@@ -49,15 +68,15 @@ function Header(props) {
             </Form>
             <Button 
               variant="success" 
-              onClick={props.onClickFunction}
+              onClick={onClickFunction}
               className="mx-2"
             >
               Log in!
             </Button>
             <LoginForm
-              show={props.show}
-              setModalShow={props.setModalShow}
-              onHideFunction={props.onHideFunction}
+              show={modalShow}
+              setModalShow={setModalShow}
+              onHideFunction={onHideFunction}
               setCurrentUser = {props.setCurrentUser}
             >
             </LoginForm>
@@ -74,7 +93,7 @@ return(
           expand="lg"
         >
         <Container fluid>
-          <Navbar.Brand href="home">
+          <Navbar.Brand href="/">
             <Image 
               src={logo} 
               alt="Logo" 
@@ -96,13 +115,13 @@ return(
               </NavDropdown>
               <Button
                 variant="outline-success"
-                onClick={() => props.setNewPlant(true)}
+                onClick={showNewPlant}
               >Add Plant
               </Button>
               <NewPlant 
-                show={props.newPlant}
-                setShow={props.setNewPlant}
-                onHide={props.hideNewPlant}
+                show={newPlantModal}
+                setShow={setNewPlantModal}
+                onHide={hideNewPlant}
                 currentUser={props.currentUser.id}
                 getPlants={props.getPlants}
               />
