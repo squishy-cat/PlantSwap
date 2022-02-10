@@ -1,15 +1,17 @@
 import './App.css';
-import Header from './components/Header';
-import ViewPlants from './components/ViewPlants';
 
-import { useState, useEffect } from 'react';
+import {React, useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Header from './components/Header';
+import HomePage from './components/HomePage'
+import UserProfile from './components/UserProfile'
+import EditProfile from './components/EditProfile'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [modalShow, setModalShow] = useState(false);
   const [allPlants, setAllPlants] = useState([]);
   const [loaded, setLoaded] = useState(false)
-  const [newPlantModal, setNewPlantModal] = useState(false);
 
   useEffect(() => {
     fetch("/me").then((res) => {
@@ -21,33 +23,6 @@ function App() {
     });
   }, []);
 
-  const handleLogout = () => {
-    fetch('/logout', {method: "DELETE"})
-    .then(res => {
-          if (res.ok) {
-            setCurrentUser(null)
-          }
-        })
-  }
-
-  const onClickFunction = () => {
-    setModalShow(true)
-  }
-
-  const onHideFunction = () => {
-    setModalShow(false)
-  }
-
-  const showNewPlant = () => {
-    setNewPlantModal(true)
-  }
-
-  const hideNewPlant = () => {
-    setNewPlantModal(false)
-  }
-
-// fetch all plants
-
   const getAllPlants = () => {
     fetch("/api/plants")
     .then((res) => res.json())
@@ -57,70 +32,26 @@ function App() {
 
   useEffect(getAllPlants, []);
 
-// fetch user's own plants
-
-const getUserPlants = () => {
-  return allPlants.filter(plant => plant.user_id===currentUser.id)
-}
-
-const renderListedPlants = () => {
-  return allPlants.filter(plant => plant.listed===true)
-}
-
-// render if user is logged out
-
-  if (!currentUser) {
-    return (
-    <div>
-        <Header 
-          show={modalShow}
-          onClickFunction={onClickFunction}
-          onHideFunction={onHideFunction}
-          setModalShow={setModalShow}
-
-          setCurrentUser = {setCurrentUser}
-          currentUser = {currentUser}
-
-          newPlant={newPlantModal}
-          setNewPlant={setNewPlantModal}
-          showNewPlant={showNewPlant}
-          hideNewPlant={hideNewPlant}
-        />
-        <h2>Listed Plants</h2>
-        <ViewPlants 
-          allPlants={renderListedPlants()}
-          loaded={loaded}
-        />
-    </div>
-    );
+  const handleLogout = () => {
+    fetch('/logout', {method: "DELETE"})
+    .then(res => {
+          if (res.ok) {
+            setCurrentUser(null)
+          }
+        })
   }
 
-  // render if user is logged in
-
   return (
-    <div>
-        <Header
-          handleLogout = {handleLogout}
-
-          newPlant={newPlantModal}
-          setNewPlant={setNewPlantModal}
-          showNewPlant={showNewPlant}
-          hideNewPlant={hideNewPlant}
-
-          currentUser = {currentUser}
-          getPlants = {getAllPlants}        
-        />
-        <h2>Listed Plants</h2>
-        <ViewPlants 
-          allPlants={renderListedPlants()}
-        />
-        <br />
-        <h2>My Plants</h2>
-        <ViewPlants 
-          allPlants={getUserPlants()}
-        />
-    </div>
-  );
+    <Router>
+      <Header currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogout={handleLogout} getPlants={getAllPlants} />
+      <Routes>
+        <Route path="/" element={<HomePage currentUser={currentUser} allPlants={allPlants} loaded={loaded} />} />
+        <Route path="profile" element={<UserProfile currentUser={currentUser} />}>
+          <Route path="edit" element ={<EditProfile currentUser={currentUser} />} />
+        </Route>
+      </Routes>
+    </Router>
+  )
 }
 
 export default App;

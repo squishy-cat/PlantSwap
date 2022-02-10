@@ -1,9 +1,12 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+
+import Header from "./Header";
 
 function UserProfile() {
     return (
         <div>
-            I'm a user profile
+            <Outlet />
         </div>
     )
 }
