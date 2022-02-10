@@ -5,12 +5,17 @@ class Api::PlantsController < ApplicationController
 
     def index
         plants = Plant.all
-        render json: plants, serializer: PlantSerializer
+        render json: plants
     end
 
     def show
         plant = find_plant
         render json: plant
+    end
+
+    def show_listings
+        plants = Plant.all
+        render json: plants, each_serializer: PlantTradeListingSerializer
     end
 
     def create
@@ -24,7 +29,7 @@ class Api::PlantsController < ApplicationController
         render json: plant
     end
 
-    def delete
+    def destroy
         plant = find_plant
         plant.destroy
     end
@@ -36,7 +41,7 @@ class Api::PlantsController < ApplicationController
     end
 
     def plant_params
-        params.permit(:common_name, :latin_name, :picture, :phase, :care_instructions, :pet_safe, :user_id)
+        params.permit(:common_name, :latin_name, :picture, :phase, :care_instructions, :pet_safe, :user_id, :listed)
     end
 
 end

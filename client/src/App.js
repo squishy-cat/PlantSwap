@@ -1,54 +1,124 @@
 import './App.css';
 import Header from './components/Header';
+import ViewPlants from './components/ViewPlants';
+
 import { useState, useEffect } from 'react';
 
-import Button from 'react-bootstrap/Button'
-
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [allPlants, setAllPlants] = useState([]);
+  const [loaded, setLoaded] = useState(false)
+  const [newPlantModal, setNewPlantModal] = useState(false);
 
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
         res.json().then((user) => {
           setCurrentUser(user);
-          setIsAuthenticated(true);
         });
       }
     });
   }, []);
 
-  if (!isAuthenticated) {
+  const handleLogout = () => {
+    fetch('/logout', {method: "DELETE"})
+    .then(res => {
+          if (res.ok) {
+            setCurrentUser(null)
+          }
+        })
+  }
+
+  const onClickFunction = () => {
+    setModalShow(true)
+  }
+
+  const onHideFunction = () => {
+    setModalShow(false)
+  }
+
+  const showNewPlant = () => {
+    setNewPlantModal(true)
+  }
+
+  const hideNewPlant = () => {
+    setNewPlantModal(false)
+  }
+
+// fetch all plants
+
+  const getAllPlants = () => {
+    fetch("/api/plants")
+    .then((res) => res.json())
+    .then((plants) => setAllPlants(plants))
+    .then(setLoaded(true))
+  }
+
+  useEffect(getAllPlants, []);
+
+// fetch user's own plants
+
+const getUserPlants = () => {
+  return allPlants.filter(plant => plant.user_id===currentUser.id)
+}
+
+const renderListedPlants = () => {
+  return allPlants.filter(plant => plant.listed===true)
+}
+
+// render if user is logged out
+
+  if (!currentUser) {
     return (
     <div>
-      <Header />
-      <body>
-        <Button>
-          Please log in!
-        </Button>
-      </body>
+        <Header 
+          show={modalShow}
+          onClickFunction={onClickFunction}
+          onHideFunction={onHideFunction}
+          setModalShow={setModalShow}
+
+          setCurrentUser = {setCurrentUser}
+          currentUser = {currentUser}
+
+          newPlant={newPlantModal}
+          setNewPlant={setNewPlantModal}
+          showNewPlant={showNewPlant}
+          hideNewPlant={hideNewPlant}
+        />
+        <h2>Listed Plants</h2>
+        <ViewPlants 
+          allPlants={renderListedPlants()}
+          loaded={loaded}
+        />
     </div>
     );
   }
 
+  // render if user is logged in
+
   return (
-    <div className="App">
-      <Router>{false ? <LoggedIn /> : <LoggedOut />}</Router>
-      <header className="App-header">
-        <Header />
-      </header>
-      <body>
-        <Button>
-          You're logged in!
-        </Button>
-      </body>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-        crossorigin="anonymous"
-      />
+    <div>
+        <Header
+          handleLogout = {handleLogout}
+
+          newPlant={newPlantModal}
+          setNewPlant={setNewPlantModal}
+          showNewPlant={showNewPlant}
+          hideNewPlant={hideNewPlant}
+
+          currentUser = {currentUser}
+          getPlants = {getAllPlants}        
+        />
+        <h2>Listed Plants</h2>
+        <ViewPlants 
+          allPlants={renderListedPlants()}
+        />
+        <br />
+        <h2>My Plants</h2>
+        <ViewPlants 
+          allPlants={getUserPlants()}
+        />
     </div>
   );
 }

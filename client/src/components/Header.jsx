@@ -1,90 +1,133 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, makeStyles, Button } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import "./Header.css"
 
-const useStyles = makeStyles(() => ({
-  header: {
-    backgroundColor: "darkgreen",
-    paddingRight: "79px",
-    paddingLeft: "118px",
-  },
-  logo: {
-    fontFamily: "Work Sans, sans-serif",
-    fontWeight: 600,
-    color: "#FFFEFE",
-    textAlign: "left",
-  },
-  menuButton: {
-    fontFamily: "Open Sans, sans-serif",
-    fontWeight: 700,
-    size: "18px",
-    marginLeft: "38px",
-  },
-  toolbarButtons: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}));
+import LoginForm from "./LoginForm";
+import NewPlant from "./NewPlant";
 
+import { Navbar, Container, Nav, NavDropdown, Form, Button, FormControl, Image } from 'react-bootstrap'
 
-const headersData = [
-  {
-    label: "Listings",
-    href: "/listings",
-  },
-  {
-    label: "Mentors",
-    href: "/mentors",
-  },
-  {
-    label: "My Account",
-    href: "/account",
-  },
-  {
-    label: "Log Out",
-    href: "/logout",
-  },
-];
+import logo from '../assets/logo-seedling.jpg'
 
-function Header() {
-  const { header, logo, menuButton, toolbarButtons } = useStyles();
+function Header(props) {
 
-  const displayDesktop = () => {
-    return <Toolbar className={toolbarButtons}>
-    {plantSwap}
-    <div>{getMenuButtons()}</div>
-  </Toolbar>
-  };
-
-  const plantSwap = (
-    <typography variant="h6" component="h1" className={logo}>
-      PlantSwap
-    </typography>
-  )
-
-  const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Button
-          {...{
-            key: label,
-            color: "inherit",
-            to: href,
-            component: RouterLink,
-            className: menuButton
-          }}
+  if (props.currentUser===null) {
+    return (
+      <Navbar
+        bg="light" 
+        expand="lg"
         >
-          {label}
-        </Button>
-      );
-    });
-  };
+        <Container fluid>
+          <Navbar.Brand href="home">
+            <Image 
+              src={logo} 
+              alt="Logo" 
+              className="logo" 
+            />
+            PlantSwap</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: '100px' }}
+              navbarScroll
+            >
+              <Nav.Link href="#action1">My Plants</Nav.Link>
+              <Nav.Link href="#action2">My Trades</Nav.Link>
+              <NavDropdown title="My Profile" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
+                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+            <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+            <Button 
+              variant="success" 
+              onClick={props.onClickFunction}
+              className="mx-2"
+            >
+              Log in!
+            </Button>
+            <LoginForm
+              show={props.show}
+              setModalShow={props.setModalShow}
+              onHideFunction={props.onHideFunction}
+              setCurrentUser = {props.setCurrentUser}
+            >
+            </LoginForm>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    )
+  }
   
-  return (
-    <header>
-      <AppBar className={header}>{displayDesktop()}</AppBar>
-    </header>
-  );
-}
+return(
+    <div>
+        <Navbar
+          bg="light" 
+          expand="lg"
+        >
+        <Container fluid>
+          <Navbar.Brand href="home">
+            <Image 
+              src={logo} 
+              alt="Logo" 
+              className="logo" 
+            />
+            PlantSwap</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: '100px' }}
+              navbarScroll
+            >
+              <Nav.Link href="#action1">My Plants</Nav.Link>
+              <Nav.Link href="#action2">My Trades</Nav.Link>
+              <NavDropdown title="My Profile" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
+                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
+              </NavDropdown>
+              <Button
+                variant="outline-success"
+                onClick={() => props.setNewPlant(true)}
+              >Add Plant
+              </Button>
+              <NewPlant 
+                show={props.newPlant}
+                setShow={props.setNewPlant}
+                onHide={props.hideNewPlant}
+                currentUser={props.currentUser.id}
+                getPlants={props.getPlants}
+              />
+            </Nav>
+            <Form className="d-flex">
+              <FormControl
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+            <Button 
+              onClick={props.handleLogout}
+              className="mx-2"
+              variant="success"
+            >
+              Log out
+            </Button>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </div>
+    )
+  } 
 
 export default Header;
