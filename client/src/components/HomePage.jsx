@@ -1,9 +1,9 @@
 import React from "react";
+import "./HomePage.css"
 
 import ViewPlants from './ViewPlants';
 
-function HomePage( {currentUser, allPlants, loaded} ) {
-
+function HomePage( {currentUser, allPlants} ) {
 
 const getUserPlants = () => {
   return allPlants.filter(plant => plant.user_id===currentUser.id)
@@ -21,7 +21,6 @@ const renderListedPlants = () => {
         <h2>Listed Plants</h2>
         <ViewPlants 
           allPlants={renderListedPlants()}
-          loaded={loaded}
         />
     </div>
     );
@@ -30,7 +29,7 @@ const renderListedPlants = () => {
   // render if user is logged in
 
   return (
-    <div>
+    <div className="HomePage">
         <h2>Listed Plants</h2>
         <ViewPlants 
           allPlants={renderListedPlants()}
@@ -39,6 +38,7 @@ const renderListedPlants = () => {
         <h2>My Plants</h2>
         <ViewPlants 
           allPlants={getUserPlants()}
+          currentUser={currentUser.id}
         />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 
-function EditProfile() {
+function EditProfile({ currentUser }) {
+
     return (
         <div>
             A user can edit their profile here

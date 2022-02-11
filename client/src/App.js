@@ -10,14 +10,15 @@ import EditProfile from './components/EditProfile'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [allPlants, setAllPlants] = useState([]);
   const [loaded, setLoaded] = useState(false)
+  const [allPlants, setAllPlants] = useState([]);
 
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
         res.json().then((user) => {
           setCurrentUser(user);
+          setLoaded(true)
         });
       }
     });
@@ -27,7 +28,6 @@ function App() {
     fetch("/api/plants")
     .then((res) => res.json())
     .then((plants) => setAllPlants(plants))
-    .then(setLoaded(true))
   }
 
   useEffect(getAllPlants, []);
@@ -45,9 +45,11 @@ function App() {
     <Router>
       <Header currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogout={handleLogout} getPlants={getAllPlants} />
       <Routes>
-        <Route path="/" element={<HomePage currentUser={currentUser} allPlants={allPlants} loaded={loaded} />} />
-        <Route path="profile" element={<UserProfile currentUser={currentUser} />}>
-          <Route path="edit" element ={<EditProfile currentUser={currentUser} />} />
+        <Route path="/" element={<HomePage currentUser={currentUser} allPlants={allPlants} />} />
+        <Route path="profile">
+          {/* <Route path="me" element={<UserProfile currentUser={currentUser} />} /> */}
+          <Route path=":userId" element={<UserProfile currentUser={currentUser} loaded={loaded} />} />
+          <Route path="edit" element ={<EditProfile />} />
         </Route>
       </Routes>
     </Router>

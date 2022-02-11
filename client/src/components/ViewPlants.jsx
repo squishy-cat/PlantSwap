@@ -5,7 +5,7 @@ import { CardGroup, Button } from 'react-bootstrap'
 
 import PlantCard from "./PlantCard";
 
-function ViewPlants({allPlants}) {
+function ViewPlants({allPlants, currentUser}) {
     //fetch data based on params -- user's own plants, plants for trade, etc
     if (allPlants.length === 0) {
         return (
@@ -36,6 +36,9 @@ function ViewPlants({allPlants}) {
                             phase={plant.phase}
                             petSafe={plant.pet_safe}
                             careInstructions={plant.care_instructions}
+                            plantId={plant.id}
+                            userId={plant.user_id}
+                            currentUser={currentUser}
                         />
                     )
                 })}

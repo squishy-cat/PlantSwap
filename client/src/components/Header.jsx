@@ -34,6 +34,7 @@ function Header(props) {
       <Navbar
         bg="light" 
         expand="lg"
+        sticky="top"
         >
         <Container fluid>
           <Navbar.Brand href="/">
@@ -50,12 +51,9 @@ function Header(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#" disabled>My Plants</Nav.Link>
-              <Nav.Link href="#" disabled>My Trades</Nav.Link>
-              <NavDropdown title="My Profile" id="navbarScrollingDropdown" disabled>
-                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
-                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link href="plants" disabled>My Plants</Nav.Link>
+              <Nav.Link href="trades" disabled>My Trades</Nav.Link>
+              <Nav.Link href="/profile/me" disabled>My Profile</Nav.Link>
             </Nav>
             <Form className="d-flex">
               <FormControl
@@ -91,6 +89,7 @@ return(
         <Navbar
           bg="light" 
           expand="lg"
+          sticky="top"
         >
         <Container fluid>
           <Navbar.Brand href="/">
@@ -99,7 +98,14 @@ return(
               alt="Logo" 
               className="logo" 
             />
-            PlantSwap</Navbar.Brand>
+            PlantSwap
+          </Navbar.Brand>
+          <Button
+            variant="outline-success"
+            onClick={showNewPlant}
+          >
+            Add Plant
+          </Button>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -107,17 +113,9 @@ return(
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="#action1">My Plants</Nav.Link>
-              <Nav.Link href="#action2">My Trades</Nav.Link>
-              <NavDropdown title="My Profile" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="/profile">View</NavDropdown.Item>
-                <NavDropdown.Item href="/profile/edit">Edit</NavDropdown.Item>
-              </NavDropdown>
-              <Button
-                variant="outline-success"
-                onClick={showNewPlant}
-              >Add Plant
-              </Button>
+              <Nav.Link href="plants">My Plants</Nav.Link>
+              <Nav.Link href="trades">My Trades</Nav.Link>
+              <Nav.Link href="/profile/me">My Profile</Nav.Link>
               <NewPlant 
                 show={newPlantModal}
                 setShow={setNewPlantModal}
