@@ -1,0 +1,11 @@
+#Badge{
+    font-size: small !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
+
+#PlantImage{
+    border-radius: 10px;
+}

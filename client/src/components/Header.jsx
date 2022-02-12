@@ -1,10 +1,10 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import "./Header.css"
 
 import LoginForm from "./LoginForm";
 import NewPlant from "./NewPlant";
 
-import { Navbar, Container, Nav, NavDropdown, Form, Button, FormControl, Image } from 'react-bootstrap'
+import { Navbar, Container, Nav, Form, Button, FormControl, Image } from 'react-bootstrap'
 
 import logo from '../assets/logo-seedling.jpg'
 
@@ -29,6 +29,8 @@ function Header(props) {
     setNewPlantModal(false)
   }
 
+  // const toTrades = `/trades/${props.currentUser.id}`
+
   if (props.currentUser===null) {
     return (
       <Navbar
@@ -51,8 +53,8 @@ function Header(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="plants" disabled>My Plants</Nav.Link>
-              <Nav.Link href="trades" disabled>My Trades</Nav.Link>
+              {/* <Nav.Link href="plants" disabled>My Plants</Nav.Link> */}
+              <Nav.Link href="/trades" disabled>My Trades</Nav.Link>
               <Nav.Link href="/profile/me" disabled>My Profile</Nav.Link>
             </Nav>
             <Form className="d-flex">
@@ -113,8 +115,8 @@ return(
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="plants">My Plants</Nav.Link>
-              <Nav.Link href="trades">My Trades</Nav.Link>
+              {/* <Nav.Link href="/plants">My Plants</Nav.Link> */}
+              <Nav.Link href={`/trades/${props.currentUser.id}`}>My Trades</Nav.Link>
               <Nav.Link href="/profile/me">My Profile</Nav.Link>
               <NewPlant 
                 show={newPlantModal}

@@ -14,7 +14,7 @@ class Api::UsersController < ApplicationController
 
     def update
         user = find_user
-        user.update!(user_params)
+        user.update(user_params)
         render json: user, status: 201
     end
 

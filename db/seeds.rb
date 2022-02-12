@@ -37,4 +37,6 @@ TradeListing.create(
     user_id: 1
 )
 
+
+
 puts "Data creation complete!"

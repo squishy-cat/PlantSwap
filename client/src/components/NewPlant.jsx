@@ -50,19 +50,18 @@ function NewPlant(props) {
     return (
         <Modal
             show = {show}
-            {...rest}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
                     New Plant
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb3" controlId="formPlantCommonName">
+                    <Form.Group className="mb3">
                         <Form.Label>Common name</Form.Label>
                         <Form.Control 
                             id="common_name" 
@@ -72,7 +71,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <FormGroup classname="mb3" controlId="formPlantLatinName">
+                    <FormGroup className="mb3">
                         <Form.Label>Latin name</Form.Label>
                         <Form.Control 
                             id="latin_name" 
@@ -82,7 +81,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </FormGroup>
-                    <FormGroup classname="mb3" controlId="formPlantPictureUrl">
+                    <FormGroup className="mb3">
                         <Form.Label>Photo</Form.Label>
                         <Form.Control
                             id="picture" 
@@ -92,7 +91,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </FormGroup>
-                    <FormGroup classname="mb3" controlId="formPlantGrowthPhase">
+                    <FormGroup className="mb3">
                         <Form.Label>Growth phase</Form.Label>
                         <Form.Control 
                             id="phase"
@@ -102,7 +101,7 @@ function NewPlant(props) {
                             onChange={handleChange} 
                         />
                     </FormGroup>
-                    <FormGroup classname="mb3" controlId="formPlantCareInstructions">
+                    <FormGroup className="mb3">
                         <Form.Label>Care Instructions</Form.Label>
                         <Form.Control
                             id="care_instructions" 
@@ -112,7 +111,7 @@ function NewPlant(props) {
                             onChange={handleChange} 
                         />
                     </FormGroup>
-                    <FormGroup classname="mb3" controlId="formPlantPetSafe">
+                    <FormGroup className="mb3">
                         <Form.Label>Is it pet safe?</Form.Label>
                         <Form.Control 
                             id="pet_safe" 

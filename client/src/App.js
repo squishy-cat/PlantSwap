@@ -7,6 +7,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage'
 import UserProfile from './components/UserProfile'
 import EditProfile from './components/EditProfile'
+import ViewTrades from './components/ViewTrades';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,13 +25,13 @@ function App() {
     });
   }, []);
 
-  const getAllPlants = () => {
+  const getPlants = () => {
     fetch("/api/plants")
     .then((res) => res.json())
     .then((plants) => setAllPlants(plants))
   }
 
-  useEffect(getAllPlants, []);
+  useEffect(getPlants, []);
 
   const handleLogout = () => {
     fetch('/logout', {method: "DELETE"})
@@ -41,16 +42,65 @@ function App() {
         })
   }
 
+  const filterUserPlants = (userId) => {
+    return allPlants.filter(plant => plant.user_id===userId)
+  }
+  
+  const filterListedPlants = () => {
+    return allPlants.filter(plant => plant.listed===true)
+  }
+
   return (
     <Router>
-      <Header currentUser={currentUser} setCurrentUser={setCurrentUser} handleLogout={handleLogout} getPlants={getAllPlants} />
+      <Header 
+        currentUser={currentUser} 
+        setCurrentUser={setCurrentUser} 
+        handleLogout={handleLogout} 
+      />
       <Routes>
-        <Route path="/" element={<HomePage currentUser={currentUser} allPlants={allPlants} />} />
-        <Route path="profile">
-          {/* <Route path="me" element={<UserProfile currentUser={currentUser} />} /> */}
-          <Route path=":userId" element={<UserProfile currentUser={currentUser} loaded={loaded} />} />
-          <Route path="edit" element ={<EditProfile />} />
+        <Route 
+          path="/" 
+          element={
+            <HomePage 
+              currentUser={currentUser} 
+              allPlants={allPlants} 
+              filterUserPlants={filterUserPlants} 
+              filterListedPlants={filterListedPlants} 
+              loaded={loaded}
+            />
+          } 
+        />
+        <Route 
+          path="profile"
+        >
+          <Route 
+            path=":userId" 
+            element={
+              <UserProfile 
+                currentUser={currentUser} 
+                loaded={loaded} 
+                filterUserPlants={filterUserPlants} 
+              />
+            } 
+          />
+          <Route 
+            path="edit" 
+            element ={
+              <EditProfile 
+                currentUser={currentUser}
+              />
+            } 
+          />
         </Route>
+        <Route 
+          path="trades/:userId"
+          element={
+            <ViewTrades 
+              currentUser={currentUser}
+              allPlants={allPlants}
+            />
+          } 
+        />
       </Routes>
     </Router>
   )

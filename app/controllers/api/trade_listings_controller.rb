@@ -13,6 +13,11 @@ class Api::TradeListingsController < ApplicationController
         render json: listing
     end
 
+    def find_for_plant
+        listing = TradeListing.find_by("plant_id = ?", params[:plant_id])
+        render json: listing
+    end
+
     def create
         listing = TradeListing.create!(listing_params)
         render json: listing, status: :created
@@ -20,7 +25,7 @@ class Api::TradeListingsController < ApplicationController
 
     def update
         listing = find_listing
-        TradeListing.update!(listing_params)
+        TradeListing.update(listing_params)
         render json: listing
     end
 

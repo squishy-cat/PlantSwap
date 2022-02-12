@@ -1,17 +1,9 @@
-import React from "react";
+import { React } from "react";
 import "./HomePage.css"
 
 import ViewPlants from './ViewPlants';
 
-function HomePage( {currentUser, allPlants} ) {
-
-const getUserPlants = () => {
-  return allPlants.filter(plant => plant.user_id===currentUser.id)
-}
-
-const renderListedPlants = () => {
-  return allPlants.filter(plant => plant.listed===true)
-}
+function HomePage( {currentUser, filterListedPlants, filterUserPlants} ) {
 
 // render if user is logged out
 
@@ -20,24 +12,26 @@ const renderListedPlants = () => {
     <div>
         <h2>Listed Plants</h2>
         <ViewPlants 
-          allPlants={renderListedPlants()}
+          allPlants={filterListedPlants()}
         />
     </div>
     );
   }
 
   // render if user is logged in
+  console.log(filterListedPlants())
 
   return (
     <div className="HomePage">
         <h2>Listed Plants</h2>
         <ViewPlants 
-          allPlants={renderListedPlants()}
+          allPlants={filterListedPlants()}
+          filteredUserPlants={filterUserPlants(currentUser.id)}
         />
         <br />
         <h2>My Plants</h2>
         <ViewPlants 
-          allPlants={getUserPlants()}
+          allPlants={filterUserPlants(currentUser.id)}
           currentUser={currentUser.id}
         />
     </div>
