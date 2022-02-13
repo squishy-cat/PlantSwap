@@ -115,7 +115,6 @@ return(
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              {/* <Nav.Link href="/plants">My Plants</Nav.Link> */}
               <Nav.Link href={`/trades/${props.currentUser.id}`}>My Trades</Nav.Link>
               <Nav.Link href="/profile/me">My Profile</Nav.Link>
               <NewPlant 

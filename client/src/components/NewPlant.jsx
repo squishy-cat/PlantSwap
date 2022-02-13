@@ -5,6 +5,7 @@ import { Modal, Form, FormGroup, Button } from "react-bootstrap";
 function NewPlant(props) {
     
     const { show, currentUser, ...rest } = props
+    const [checked, setChecked] = useState(false)
 
     const [formData, setFormData] = useState({
         common_name: "",
@@ -13,6 +14,7 @@ function NewPlant(props) {
         phase: "",
         care_instructions: "",
         pet_safe: "",
+        listed: "",
         user_id: `${currentUser}`
     })
 
@@ -47,6 +49,14 @@ function NewPlant(props) {
         })
     }
 
+    function handleCheck() {
+        setFormData({
+            ...formData,
+            listed: `${!checked}`
+        })
+        setChecked(!checked)
+    }
+
     return (
         <Modal
             show = {show}
@@ -61,7 +71,7 @@ function NewPlant(props) {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb3">
+                    <Form.Group className="mb-3">
                         <Form.Label>Common name</Form.Label>
                         <Form.Control 
                             id="common_name" 
@@ -71,7 +81,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <FormGroup className="mb3">
+                    <FormGroup className="mb-3">
                         <Form.Label>Latin name</Form.Label>
                         <Form.Control 
                             id="latin_name" 
@@ -81,7 +91,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </FormGroup>
-                    <FormGroup className="mb3">
+                    <FormGroup className="mb-3">
                         <Form.Label>Photo</Form.Label>
                         <Form.Control
                             id="picture" 
@@ -91,7 +101,7 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </FormGroup>
-                    <FormGroup className="mb3">
+                    <FormGroup className="mb-3">
                         <Form.Label>Growth phase</Form.Label>
                         <Form.Control 
                             id="phase"
@@ -101,7 +111,7 @@ function NewPlant(props) {
                             onChange={handleChange} 
                         />
                     </FormGroup>
-                    <FormGroup className="mb3">
+                    <FormGroup className="mb-3">
                         <Form.Label>Care Instructions</Form.Label>
                         <Form.Control
                             id="care_instructions" 
@@ -111,7 +121,7 @@ function NewPlant(props) {
                             onChange={handleChange} 
                         />
                     </FormGroup>
-                    <FormGroup className="mb3">
+                    <FormGroup className="mb-3">
                         <Form.Label>Is it pet safe?</Form.Label>
                         <Form.Control 
                             id="pet_safe" 
@@ -121,6 +131,16 @@ function NewPlant(props) {
                             onChange={handleChange}
                         />
                     </FormGroup>
+                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                        <Form.Label>List for trade?</Form.Label>
+                        <Form.Check 
+                            type="checkbox"
+                            id="listed"
+                            // checked={checked}
+                            onChange={handleCheck}
+                            label="Check if you'd like for this plant to be available to trade"
+                        />
+                    </Form.Group>
                     <Button
                         type="submit"
                         variant="success"

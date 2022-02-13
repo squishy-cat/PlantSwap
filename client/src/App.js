@@ -60,6 +60,7 @@ function App() {
         currentUser={currentUser} 
         setCurrentUser={setCurrentUser} 
         handleLogout={handleLogout} 
+        getPlants={getPlants}
       />
       <Routes>
         <Route 

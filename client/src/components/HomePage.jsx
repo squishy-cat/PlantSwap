@@ -19,7 +19,6 @@ function HomePage( {currentUser, filterListedPlants, filterUserPlants} ) {
   }
 
   // render if user is logged in
-  console.log(filterListedPlants())
 
   return (
     <div className="HomePage">
