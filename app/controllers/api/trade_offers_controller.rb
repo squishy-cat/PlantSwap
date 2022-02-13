@@ -13,6 +13,18 @@ class Api::TradeOffersController < ApplicationController
         render json: offer
     end
 
+    # Trades waiting on feedback from current user
+    def user_trades
+        offers = TradeOffer.where("offer_to_id = ? AND accepted = ? AND declined = ?", params[:user_id], false, false)
+        render json: offers, each_serializer: TradeOfferWithPlantAndUserSerializer
+    end
+
+    # Trades pending *for* current user
+    def pending_trades
+        offers = TradeOffer.where("offer_from_id = ? AND accepted = ? AND declined = ?", params[:user_id], false, false)
+        render json: offers, each_serializer: TradeOfferWithPlantAndUserSerializer
+    end
+
     def create
         offer = TradeOffer.create!(offer_params)
         render json: offer, status: :created
@@ -20,13 +32,14 @@ class Api::TradeOffersController < ApplicationController
     
     def update
         offer = find_offer
-        TradeOffer.update!(offer_params)
+        offer.update(offer_params)
         render json: offer
     end
 
-    def delete
+    def destroy
         offer = find_offer
-        TradeOffer.destroy
+        offer.destroy
+        render json: {}
     end
 
     private
@@ -36,7 +49,7 @@ class Api::TradeOffersController < ApplicationController
     end
 
     def offer_params
-        params.permit(:plant_wanted, :plant_offered, :accepted, :complete, :trade_listing_id, :offer_from_id, :offer_to_id)
+        params.permit(:plant_wanted_id, :plant_offered_id, :accepted, :complete, :trade_listing_id, :offer_from_id, :offer_to_id, :declined)
     end
 
 

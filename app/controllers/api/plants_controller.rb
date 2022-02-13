@@ -13,9 +13,9 @@ class Api::PlantsController < ApplicationController
         render json: plant
     end
 
-    def show_listings
-        plants = Plant.all
-        render json: plants, each_serializer: PlantTradeListingSerializer
+    def user_plants
+        plants = Plant.where("user_id = ?", params[:user_id])
+        render json: plants
     end
 
     def create
@@ -25,7 +25,7 @@ class Api::PlantsController < ApplicationController
 
     def update
         plant = find_plant
-        plant.update!(plant_params)
+        plant.update(plant_params)
         render json: plant
     end
 

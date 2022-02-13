@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import { useEffect } from "react";
+import { React, useState } from "react";
 
 import { Modal, Form, FormGroup, Button } from "react-bootstrap";
 
-function NewPlant(props) {
-    
-    const { show, currentUser, ...rest } = props
-    const [checked, setChecked] = useState(false)
+function EditPlant({ show, onHide, editPlant, getPlants, currentUser }) {
+
+    const [checked, setChecked] = useState()
     const [formData, setFormData] = useState({
         common_name: "",
         latin_name: "",
@@ -14,8 +14,9 @@ function NewPlant(props) {
         care_instructions: "",
         pet_safe: "",
         listed: "",
-        user_id: `${currentUser}`
     })
+
+
 
     const handleChange = (e) => {
         setFormData({
@@ -29,8 +30,8 @@ function NewPlant(props) {
 
         const plantParams = { ...formData }
 
-        fetch(`api/plants`, {
-            method: "POST",
+        fetch(`../api/plants/${editPlant.id}`, {
+            method: "PATCH",
             headers: {
                 "Content-Type" : "application/json"
             },
@@ -40,7 +41,7 @@ function NewPlant(props) {
                 res.json()
                 .then((plant) => {
                     if (plant.listed===true) {
-                        fetch(`api/trade_listings`, {
+                        fetch(`../api/trade_listings`, {
                             method: "POST",
                             headers: {
                                 "Content-Type" : "application/json"
@@ -51,17 +52,23 @@ function NewPlant(props) {
                                 user_id: `${currentUser}`
                             })
                         })
+                    } else if (plant.listed===false) {
+                        fetch(`../api/plant-listing/${editPlant.id}`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type" : "application/json"
+                            }
+                        })
                     }
                 })
-                .then(rest.onHide)
-                .then(rest.getPlants)
+                .then(onHide)
+                .then(getPlants)
             } else {
                 res.json().then((errors) => {
                     console.error(errors);
                 })
             }
         })
-        
     }
 
     function handleCheck() {
@@ -72,7 +79,23 @@ function NewPlant(props) {
         setChecked(!checked)
     }
 
-    return (
+    useEffect(() => {
+        if(editPlant) {
+            setChecked(editPlant.listed)
+            setFormData({
+            ...FormData,
+                common_name: `${editPlant.common_name}`,
+                latin_name: `${editPlant.latin_name}`,
+                picture: `${editPlant.picture}`,
+                phase: `${editPlant.phase}`,
+                care_instructions: `${editPlant.care_instructions}`,
+                pet_safe: `${editPlant.pet_safe}`,
+                listed: `${editPlant.listed}`,
+            })
+        }
+    }, [editPlant])
+
+    return(
         <Modal
             show = {show}
             size="lg"
@@ -81,7 +104,7 @@ function NewPlant(props) {
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    New Plant
+                    Edit Plant
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -151,7 +174,7 @@ function NewPlant(props) {
                         <Form.Check 
                             type="checkbox"
                             id="listed"
-                            // checked={checked}
+                            checked={checked}
                             onChange={handleCheck}
                             label="Check if you'd like for this plant to be available to trade"
                         />
@@ -167,15 +190,14 @@ function NewPlant(props) {
             </Modal.Body>
             <Modal.Footer>
                 <Button 
-                    onClick={rest.onHide}
+                    onClick={onHide}
                     variant="warning"
                 >
                     Close
                 </Button>
             </Modal.Footer>
         </Modal>
-    );
+    )
 }
 
-
-export default NewPlant;
+export default EditPlant;

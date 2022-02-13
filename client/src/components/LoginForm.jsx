@@ -4,7 +4,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 
 import SignupForm from "./SignupForm";
 
-function LoginForm(props) {
+function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
   const [signUp, setSignUp] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -18,8 +18,6 @@ function LoginForm(props) {
     });
   };
 
-  const { show, ...rest } = props
-
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch("/login", {
@@ -31,8 +29,8 @@ function LoginForm(props) {
     }).then((res) => {
       if (res.ok) {
         res.json().then((user) => {
-          rest.setCurrentUser(user);
-          rest.setModalShow(false);
+          setCurrentUser(user);
+          setModalShow(false);
         });
       } else {
         res.json().then((errors) => {
@@ -45,8 +43,7 @@ function LoginForm(props) {
   if (signUp===false) {
     return (
       <Modal
-        show = {show}
-        {...rest} 
+        show = {show} 
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -93,7 +90,7 @@ function LoginForm(props) {
         </Modal.Body>
         <Modal.Footer>
           <Button 
-            onClick={rest.onHideFunction}
+            onClick={onHideFunction}
             variant="outline-success"
           >
             Close
@@ -110,7 +107,6 @@ function LoginForm(props) {
       centered
       show={signUp}
       setSignUp={setSignUp}
-      {...rest}
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -119,8 +115,8 @@ function LoginForm(props) {
       </Modal.Header>
       <Modal.Body>
         <SignupForm 
-          setCurrentUser = {rest.setCurrentUser}
-          setModalShow = {rest.setModalShow}
+          setCurrentUser = {setCurrentUser}
+          setModalShow = {setModalShow}
         />
       </Modal.Body>
       <Modal.Footer>

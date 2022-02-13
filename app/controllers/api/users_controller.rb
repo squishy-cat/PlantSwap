@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
 
     def index
         users = User.all
-        render json: users, each_serializer: UserWithPlantsSerializer
+        render json: users
     end
 
     def show
@@ -14,11 +14,11 @@ class Api::UsersController < ApplicationController
 
     def update
         user = find_user
-        user.update!(user_params)
+        user.update(user_params)
         render json: user, status: 201
     end
 
-    def delete
+    def destroy
         user = find_user
         user.destroy
     end

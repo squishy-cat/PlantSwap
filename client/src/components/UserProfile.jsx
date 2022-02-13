@@ -1,35 +1,42 @@
 import { React, useState, useEffect } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
 
 import "./UserProfile.css"
 
 import { Figure, Badge, Button } from "react-bootstrap"
 
-function UserProfile( {currentUser, loaded} ) {
+import ViewPlants from "./ViewPlants";
+
+function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser, getPlants} ) {
     const [user, setUser] = useState(null)
+    const navigate = useNavigate()
 
     let params = useParams();
     let searchId;
 
+    const handleClick = () => {
+        navigate('/profile/edit')
+    }
+
     if(loaded===true && params.userId==="me") {
         searchId = currentUser.id
-        console.log(searchId)
         } else if (loaded===true && params.userId!=="me") {
         searchId = params.userId
-        console.log(searchId)
     }
 
     useEffect(() => {
         fetch(`/api/users/${searchId}`)
-                .then((res) => res.json())
-                .then((user) => setUser(user))
+        .then((res) => res.json())
+        .then((user) => setUser(user))
     },[loaded]);
 
-    if (!currentUser && loaded===false) {
+
+    if (!currentUser) {
         return (
             <div>Loading</div>
         )
-    } else if (currentUser.id !== searchId) {
+
+    } else if (currentUser && currentUser.id != user.id) {
         return (
             <div className="UserProfile">
             <Figure>
@@ -38,7 +45,7 @@ function UserProfile( {currentUser, loaded} ) {
                     id="UserImage"
                     src={user.photo}
                 />
-                <h2>{user.name}</h2>
+                <h2>About {user.name}</h2>
                 <Badge 
                     bg="success"
                     id="Badge"
@@ -96,12 +103,11 @@ function UserProfile( {currentUser, loaded} ) {
                 </Badge>
             </Figure>
             <br />
-            <Button
-                variant="outline-success"
-                href="/trade"
-            >
-                Start a trade!
-            </Button>
+            <h2>{user.name}'s Listed Plants</h2>
+            <ViewPlants 
+                allPlants={filterListedPlantsForUser(user.id)}
+                currentUser={currentUser.id}
+            />
         <Outlet />
         </div>
         )
@@ -175,10 +181,18 @@ function UserProfile( {currentUser, loaded} ) {
             <br />
             <Button
                 variant="outline-success"
-                href="/profile/edit"
+                onClick={handleClick}
             >
                 Edit my profile
             </Button>
+            <br />
+            <br />
+            <h2>My Plants</h2>
+            <ViewPlants 
+                allPlants={filterUserPlants(user.id)}
+                currentUser={currentUser.id}
+                getPlants={getPlants}
+            />
         <Outlet />
         </div>
     )

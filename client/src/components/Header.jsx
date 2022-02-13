@@ -1,10 +1,10 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import "./Header.css"
 
 import LoginForm from "./LoginForm";
 import NewPlant from "./NewPlant";
 
-import { Navbar, Container, Nav, NavDropdown, Form, Button, FormControl, Image } from 'react-bootstrap'
+import { Navbar, Container, Nav, Form, Button, FormControl, Image } from 'react-bootstrap'
 
 import logo from '../assets/logo-seedling.jpg'
 
@@ -51,11 +51,11 @@ function Header(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="plants" disabled>My Plants</Nav.Link>
-              <Nav.Link href="trades" disabled>My Trades</Nav.Link>
+              {/* <Nav.Link href="plants" disabled>My Plants</Nav.Link> */}
+              <Nav.Link href="/trades" disabled>My Trades</Nav.Link>
               <Nav.Link href="/profile/me" disabled>My Profile</Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl
                 type="search"
                 placeholder="Search"
@@ -63,7 +63,7 @@ function Header(props) {
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Button 
               variant="success" 
               onClick={onClickFunction}
@@ -113,8 +113,7 @@ return(
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href="plants">My Plants</Nav.Link>
-              <Nav.Link href="trades">My Trades</Nav.Link>
+              <Nav.Link href={`/trades/${props.currentUser.id}`}>My Trades</Nav.Link>
               <Nav.Link href="/profile/me">My Profile</Nav.Link>
               <NewPlant 
                 show={newPlantModal}
@@ -124,7 +123,7 @@ return(
                 getPlants={props.getPlants}
               />
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl
                 type="search"
                 placeholder="Search"
@@ -132,7 +131,7 @@ return(
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Button 
               onClick={props.handleLogout}
               className="mx-2"

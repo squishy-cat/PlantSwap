@@ -1,27 +1,12 @@
-import React from "react";
+import { React } from "react";
 import './ViewPlants.css';
 
-import { CardGroup, Button } from 'react-bootstrap'
+import { CardGroup } from 'react-bootstrap'
 
 import PlantCard from "./PlantCard";
 
-function ViewPlants({allPlants, currentUser}) {
-    //fetch data based on params -- user's own plants, plants for trade, etc
-    if (allPlants.length === 0) {
-        return (
-            <div>No plants here!
-                <Button
-                    variant="success"
-                    style={{maxHeight:'50px'}}
-                    id="button"
-                >
-                    Add plants
-                </Button>
-            </div>
-            
-        )
-    }
-
+function ViewPlants({allPlants, currentUser, filteredUserPlants, trading, tradePlant, getPlants, filterListedPlantsForUser}) {
+    
     return ( 
         <div>
             <CardGroup
@@ -30,15 +15,22 @@ function ViewPlants({allPlants, currentUser}) {
                 {allPlants.map((plant) => {
                     return (
                         <PlantCard
-                            name={plant.common_name}
                             key={plant.id}
+                            plant={plant}
+                            name={plant.common_name}
                             img={plant.picture}
                             phase={plant.phase}
                             petSafe={plant.pet_safe}
                             careInstructions={plant.care_instructions}
+                            listed={plant.listed}
                             plantId={plant.id}
                             userId={plant.user_id}
                             currentUser={currentUser}
+                            filterListedPlantsForUser={filterListedPlantsForUser}
+                            filteredUserPlants={filteredUserPlants}
+                            trading={trading}
+                            tradeForPlant={tradePlant}
+                            getPlants={getPlants}
                         />
                     )
                 })}

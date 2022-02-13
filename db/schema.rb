@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_190227) do
+ActiveRecord::Schema.define(version: 2022_02_13_063158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_02_09_190227) do
     t.bigint "offer_to_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "declined", default: false
     t.index ["offer_from_id"], name: "index_trade_offers_on_offer_from_id"
     t.index ["offer_to_id"], name: "index_trade_offers_on_offer_to_id"
     t.index ["plant_offered_id"], name: "index_trade_offers_on_plant_offered_id"
