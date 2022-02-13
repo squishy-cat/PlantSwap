@@ -6,22 +6,7 @@ import { CardGroup } from 'react-bootstrap'
 import PlantCard from "./PlantCard";
 
 function ViewPlants({allPlants, currentUser, filteredUserPlants, trading, tradePlant}) {
-    //fetch data based on params -- user's own plants, plants for trade, etc
-    // if (allPlants.length === 0) {
-    //     return (
-    //         <div>No plants here!
-    //             <Button
-    //                 variant="success"
-    //                 style={{maxHeight:'50px'}}
-    //                 id="button"
-    //             >
-    //                 Add plants
-    //             </Button>
-    //         </div> 
-            
-    //     )
-    // }
-
+    
     return ( 
         <div>
             <CardGroup
@@ -30,9 +15,9 @@ function ViewPlants({allPlants, currentUser, filteredUserPlants, trading, tradeP
                 {allPlants.map((plant) => {
                     return (
                         <PlantCard
+                            key={plant.id}
                             plant={plant}
                             name={plant.common_name}
-                            key={plant.id}
                             img={plant.picture}
                             phase={plant.phase}
                             petSafe={plant.pet_safe}

@@ -8,7 +8,7 @@ import TradeModal from "./TradeModal"
 
 import "./PlantCard.css"
 
-function PlantCard({name, img, phase, petSafe, careInstructions, plantId, userId, currentUser, filteredUserPlants, trading, plant, tradeForPlant}) {
+function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, plant, tradeForPlant}) {
 
     const [tradeModal, setTradeModal] = useState(false);
     const [tradePlant, setTradePlant] = useState(null);
@@ -49,7 +49,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, plantId, userId
             .then((res) => res.json())
             .then((listing) => setTradePlantListing(listing))
         }
-    }, [tradeForPlant])
+    }, [])
 
     const createNewTradeOffer = () => {
         const offerParams = { ...tradeDetails }
@@ -245,7 +245,9 @@ function PlantCard({name, img, phase, petSafe, careInstructions, plantId, userId
                         onHide={hideTrade}
                         tradePlant={tradePlant}
                         currentUser={currentUser}
+                        allPlants={filteredUserPlants}
                         filteredUserPlants={filteredUserPlants}
+                        currentUser={currentUser}
                     />
                     <Button 
                         variant="success" 

@@ -43,11 +43,15 @@ function App() {
   }
 
   const filterUserPlants = (userId) => {
-    return allPlants.filter(plant => plant.user_id===userId)
+    return allPlants.filter(plant => plant.user_id==userId)
   }
   
   const filterListedPlants = () => {
     return allPlants.filter(plant => plant.listed===true)
+  }
+
+  const filterListedPlantsForUser = (userId) => {
+    return allPlants.filter(plant => plant.user_id==userId && plant.listed===true)
   }
 
   return (
@@ -80,6 +84,7 @@ function App() {
                 currentUser={currentUser} 
                 loaded={loaded} 
                 filterUserPlants={filterUserPlants} 
+                filterListedPlantsForUser={filterListedPlantsForUser}
               />
             } 
           />

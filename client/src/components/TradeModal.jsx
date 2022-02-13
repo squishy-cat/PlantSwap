@@ -20,6 +20,8 @@ function TradeModal(props) {
         )
     }
 
+    console.log(rest.allPlants)
+
     return (
         <Modal
             show = {show}
@@ -35,9 +37,11 @@ function TradeModal(props) {
             <Modal.Body>
                 <h3>Select a plant to offer:</h3>
                 <ViewPlants 
-                    allPlants={rest.filteredUserPlants}
+                    allPlants={rest.allPlants}
+                    filteredUserPlants={rest.filteredUserPlants}
                     trading={trading}
                     tradePlant={rest.tradePlant}
+                    currentUser={rest.currentUser}
                 />
             </Modal.Body>
             <Modal.Footer>

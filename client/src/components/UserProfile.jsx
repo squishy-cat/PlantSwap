@@ -7,7 +7,7 @@ import { Figure, Badge, Button } from "react-bootstrap"
 
 import ViewPlants from "./ViewPlants";
 
-function UserProfile( {currentUser, loaded, filterUserPlants} ) {
+function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser} ) {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
 
@@ -103,9 +103,9 @@ function UserProfile( {currentUser, loaded, filterUserPlants} ) {
                 </Badge>
             </Figure>
             <br />
-            <h2>{user.name}'s Plants</h2>
+            <h2>{user.name}'s Listed Plants</h2>
             <ViewPlants 
-                allPlants={filterUserPlants(user.id)}
+                allPlants={filterListedPlantsForUser(user.id)}
                 currentUser={currentUser.id}
             />
         <Outlet />
