@@ -1,10 +1,10 @@
-import { React, useState } from "react";
+import { React } from "react";
 
 import { Card, Button, Badge } from "react-bootstrap"
 
 import "./TradeCard.css"
 
-function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, tradeId} ) {
+function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, tradeId, currentUser, fetchData} ) {
 
     const acceptOffer = () => {
         fetch(`../api/trade_offers/${tradeId}`, {
@@ -16,7 +16,8 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
             })
             .then((res) => {
                 if (res.ok) {
-                    res.json()
+                    res.json();
+                    fetchData();
                 } else {
                     res.json().then((errors) => {
                         console.error(errors);
@@ -29,15 +30,15 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                 "Content-Type" : "application/json"
             },
             body: JSON.stringify({user_id: `${userTo.id}`, listed: "false"}),
-            })
-            .then((res) => {
-                if (res.ok) {
-                    res.json()
-                } else {
-                    res.json().then((errors) => {
-                        console.error(errors);
+        })
+        .then((res) => {
+            if (res.ok) {
+                res.json();
+            } else {
+                res.json().then((errors) => {
+                    console.error(errors);
                     })
-            }
+                }
         })
         fetch(`../api/plants/${plantWanted.id}`, {
             method: "PATCH",
@@ -53,10 +54,58 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                     res.json().then((errors) => {
                         console.error(errors);
                     })
+                }
+            })
+        }
+
+        const declineOffer = () => {
+            fetch(`../api/trade_offers/${tradeId}`, {
+                method: "PATCH",
+                headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({declined: true})
+        })
+        .then((res) => {
+            if (res.ok) {
+                res.json();
+                fetchData();
+            } else {
+                res.json().then((errors) => {
+                    console.error(errors);
+                })
+            }
+        })
+    }
+    
+
+    const cancelOffer = () => {
+        fetch(`../api/trade_offers/${tradeId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then((res) => {
+            if (res.ok) {
+                res.json();
+                fetchData();
+            } else {
+                res.json().then((errors) => {
+                    console.error(errors);
+                })
             }
         })
     }
 
+    if (!currentUser) {
+        return(
+            <div>
+                Loading...
+            </div>
+        )
+    }
+    
     if(pending==="user") {
         return (
             <div>
@@ -84,20 +133,24 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                             </Badge> {plantOffered.common_name}
                         </Card.Text>
                     </Card.Body>
-                    <Card.Body>
-                        <Button
-                            variant="outline-success"
-                            className="me-4"
-                            onClick={acceptOffer}
-                        >
-                            Accept Offer
-                        </Button>
-                        <Button
-                            variant="warning"
-                        >
-                            Decline Offer
-                        </Button>
-                    </Card.Body>
+                        {currentUser.id===userTo.id ? 
+                        <Card.Body>
+                            <Button
+                                variant="outline-success"
+                                className="me-4"
+                                onClick={acceptOffer}
+                            >
+                                Accept Offer
+                            </Button>
+                            <Button
+                                variant="warning"
+                                onClick={declineOffer}
+                            >
+                                Decline Offer
+                            </Button>
+                        </Card.Body>
+                    : null
+                    }
                 </Card>
             </div>
         )
@@ -128,19 +181,16 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                             </Badge> {plantOffered.common_name}
                         </Card.Text>
                     </Card.Body>
+                    {currentUser.id===userFrom.id ?
                     <Card.Body>
                         <Button
-                            variant="outline-success"
-                            className="me-5"
-                        >
-                            Edit Offer
-                        </Button>
-                        <Button
                             variant="warning"
+                            onClick={cancelOffer}
                         >
                             Cancel Offer
                         </Button>
                     </Card.Body>
+                    : null}
                 </Card>
             </div>
         )

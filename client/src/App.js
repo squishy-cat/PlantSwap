@@ -72,6 +72,8 @@ function App() {
               filterUserPlants={filterUserPlants} 
               filterListedPlants={filterListedPlants} 
               loaded={loaded}
+              getPlants={getPlants}
+              filterListedPlantsForUser={filterListedPlantsForUser}
             />
           } 
         />
@@ -86,6 +88,7 @@ function App() {
                 loaded={loaded} 
                 filterUserPlants={filterUserPlants} 
                 filterListedPlantsForUser={filterListedPlantsForUser}
+                getPlants={getPlants}
               />
             } 
           />

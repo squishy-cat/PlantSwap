@@ -29,8 +29,6 @@ function Header(props) {
     setNewPlantModal(false)
   }
 
-  // const toTrades = `/trades/${props.currentUser.id}`
-
   if (props.currentUser===null) {
     return (
       <Navbar
@@ -57,7 +55,7 @@ function Header(props) {
               <Nav.Link href="/trades" disabled>My Trades</Nav.Link>
               <Nav.Link href="/profile/me" disabled>My Profile</Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl
                 type="search"
                 placeholder="Search"
@@ -65,7 +63,7 @@ function Header(props) {
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Button 
               variant="success" 
               onClick={onClickFunction}
@@ -125,7 +123,7 @@ return(
                 getPlants={props.getPlants}
               />
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <FormControl
                 type="search"
                 placeholder="Search"
@@ -133,7 +131,7 @@ return(
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Button 
               onClick={props.handleLogout}
               className="mx-2"

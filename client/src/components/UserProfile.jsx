@@ -7,16 +7,16 @@ import { Figure, Badge, Button } from "react-bootstrap"
 
 import ViewPlants from "./ViewPlants";
 
-function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser} ) {
+function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser, getPlants} ) {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
+
+    let params = useParams();
+    let searchId;
 
     const handleClick = () => {
         navigate('/profile/edit')
     }
-
-    let params = useParams();
-    let searchId;
 
     if(loaded===true && params.userId==="me") {
         searchId = currentUser.id
@@ -181,7 +181,6 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
             <br />
             <Button
                 variant="outline-success"
-                // href="/profile/edit"
                 onClick={handleClick}
             >
                 Edit my profile
@@ -192,6 +191,7 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
             <ViewPlants 
                 allPlants={filterUserPlants(user.id)}
                 currentUser={currentUser.id}
+                getPlants={getPlants}
             />
         <Outlet />
         </div>

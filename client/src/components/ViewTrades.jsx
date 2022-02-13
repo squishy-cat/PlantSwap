@@ -4,7 +4,7 @@ import { useParams, Outlet } from "react-router-dom";
 
 import TradeCard from "./TradeCard";
 
-function ViewTrades() {
+function ViewTrades({ currentUser }) {
     let params = useParams();
     const [pendingFeedback, setPendingFeedback] = useState([]);
     const [pendingOffers, setPendingOffers] = useState([]);
@@ -25,7 +25,7 @@ function ViewTrades() {
     return (
         <div>
             <br />
-            <h2>New Trade Offers</h2>
+            <h2>Incoming Offers</h2>
             <br />
             <CardGroup
                 className="card-deck"
@@ -39,13 +39,15 @@ function ViewTrades() {
                             plantWanted={trade.plant_wanted_id}
                             userFrom={trade.offer_from_id}
                             userTo={trade.offer_to_id}
+                            currentUser={currentUser}
+                            fetchData={fetchData}
                             pending="user"
                         />
                     )
                 })}
             </CardGroup>
             <br />
-            <h2>Pending Trade Offers</h2>
+            <h2>Outgoing Offers</h2>
             <br />
             <CardGroup
                 className="card-deck"
@@ -54,10 +56,13 @@ function ViewTrades() {
                     return (
                         <TradeCard 
                             key={trade.id}
+                            tradeId={trade.id}
                             plantOffered={trade.plant_offered_id}
                             plantWanted={trade.plant_wanted_id}
                             userTo={trade.offer_to_id}
                             userFrom={trade.offer_from_id}
+                            currentUser={currentUser}
+                            fetchData={fetchData}
                             pending="acceptance"
                         />
                     )

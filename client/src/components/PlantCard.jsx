@@ -2,34 +2,45 @@ import { React, useEffect, useState } from "react";
 
 import { Card, ListGroup, ListGroupItem, Badge, Button, Alert } from 'react-bootstrap';
 
-import { useNavigate } from "react-router-dom";
-
 import TradeModal from "./TradeModal"
+import EditPlant from "./EditPlant";
 
 import "./PlantCard.css"
 
-function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, plant, tradeForPlant}) {
+function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, listed, plant, tradeForPlant, getPlants, filterListedPlantsForUser}) {
 
     const [tradeModal, setTradeModal] = useState(false);
-    const [tradePlant, setTradePlant] = useState(null);
+    const [activePlant, setActivePlant] = useState(null);
     const [tradePlantListing, setTradePlantListing] = useState(null);
     const [tradeDetails, setTradeDetails] = useState({});
     const [showAlert, setShowAlert] = useState(false)
-
-    const navigate = useNavigate()
+    const [showEdit, setShowEdit] = useState(false)
     
-    const goToUser = () => {
-        navigate(`/profile/${userId}`)
+    const goToUser = (e) => {
+        e.preventDefault();
+        window.location.href=`/profile/${userId}`
     }
 
     const startTrade = () => {
-        setTradePlant(plant)
+        setActivePlant(plant)
         setTradeModal(true);
     }
-
+    
     const hideTrade = () => {
+        setActivePlant(null)
         setTradeModal(false)
     }
+
+    const startEdit = () => {
+        setActivePlant(plant)
+        setShowEdit(true)
+    }
+
+    const hideEdit = () => {
+        setActivePlant(null)
+        setShowEdit(false)
+    }
+
 
     const handleClick = () => {
         setTradeDetails({
@@ -38,7 +49,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
             offer_from_id: `${plant.user_id}`,
             plant_wanted_id: `${tradeForPlant.id}`,
             offer_to_id: `${tradeForPlant.user_id}`,
-            trade_listing_id: `${tradePlantListing.plant_id}`
+            trade_listing_id: `${tradePlantListing.id}`
         });
         createNewTradeOffer();
     }
@@ -72,60 +83,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
         })
     }
 
-    if (currentUser === userId) {
-        return (
-            <div>
-                 <Card 
-                    style={{ width: '300px' }}
-                    className="card border-success m-2"
-                    >
-                    <Card.Body
-                        className="card-body text-success"
-                    >
-                        <Card.Title>{name}</Card.Title>
-                        <Card.Img 
-                            variant="top"
-                            src={img}
-                            id="PlantImage"
-                        />
-                        <Card.Text className="mt-2">
-                            Care instructions: {careInstructions}
-                        </Card.Text>
-                    </Card.Body>
-                    <ListGroup 
-                        className="list-group-flush"
-                    >
-                        <ListGroupItem>
-                            <Badge 
-                                bg="success"
-                                id="Badge"
-                            >
-                                Phase of growth:
-                            </Badge> 
-                            {phase}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <Badge
-                                bg="success"
-                                id="Badge"
-                            >
-                            Pet safe?
-                            </Badge>
-                            {petSafe}
-                        </ListGroupItem>
-                    </ListGroup>
-                    <Card.Footer>
-                        <Button 
-                            variant="outline-success"
-                            className="me-5"
-                        >
-                            Edit Plant
-                        </Button>
-                    </Card.Footer>
-                </Card>
-            </div>
-        )
-    } else if (trading===true) {
+    if (trading===true) {
         return (
             <div>
                  <Card 
@@ -188,6 +146,74 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                 </Card>
             </div>
         )
+   
+    } else if (currentUser===userId) {
+        return (
+            <div>
+                 <Card 
+                    style={{ width: '300px' }}
+                    className="card border-success m-2"
+                    >
+                    <Card.Body
+                        className="card-body text-success"
+                    >
+                        <Card.Title>{name}</Card.Title>
+                        <Card.Img 
+                            variant="top"
+                            src={img}
+                            id="PlantImage"
+                        />
+                        <Card.Text className="mt-2">
+                            Care instructions: {careInstructions}
+                        </Card.Text>
+                    </Card.Body>
+                    <ListGroup 
+                        className="list-group-flush"
+                    >
+                        <ListGroupItem>
+                            <Badge 
+                                bg="success"
+                                id="Badge"
+                            >
+                                Phase of growth:
+                            </Badge> 
+                            {phase}
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Badge
+                                bg="success"
+                                id="Badge"
+                            >
+                                Pet safe?
+                            </Badge>
+                            {petSafe}
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            {listed ? 
+                                <Badge bg="success" id="Badge">I am listed for trade</Badge> 
+                            : 
+                                <Badge bg="warning" id="Badge">I am not available for trade</Badge>}
+                        </ListGroupItem>
+                    </ListGroup>
+                    <Card.Footer>
+                        <Button 
+                            variant="outline-success"
+                            className="me-5"
+                            onClick={startEdit}
+                        >
+                            Edit Plant
+                        </Button>
+                        <EditPlant 
+                            show={showEdit}
+                            onHide={hideEdit}
+                            editPlant={activePlant}
+                            getPlants={getPlants}
+                            currentUser={currentUser}
+                        />
+                    </Card.Footer>
+                </Card>
+            </div>
+        )
     }
 
     return (
@@ -231,6 +257,8 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                         {petSafe}
                     </ListGroupItem>
                 </ListGroup>
+                {currentUser 
+                ? 
                 <Card.Footer>
                     <Button 
                         variant="outline-success"
@@ -238,16 +266,15 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                         onClick={startTrade}
                     >
                         Offer trade
-                    </Button>
+                    </Button>    
                     <TradeModal
                         show={tradeModal}
-                        setModalShow={startTrade}
                         onHide={hideTrade}
-                        tradePlant={tradePlant}
-                        currentUser={currentUser}
+                        tradePlant={activePlant}
                         allPlants={filteredUserPlants}
                         filteredUserPlants={filteredUserPlants}
                         currentUser={currentUser}
+                        filterListedPlantsForUser={filterListedPlantsForUser}
                     />
                     <Button 
                         variant="success" 
@@ -256,7 +283,17 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                     >
                         About User
                     </Button>
+                </Card.Footer>                    
+                :                     
+                <Card.Footer>
+                    <Badge
+                        bg="warning"
+                        id="Badge"
+                    >
+                        Log in to trade!
+                    </Badge>
                 </Card.Footer>
+                }
             </Card>
         </div>
     )

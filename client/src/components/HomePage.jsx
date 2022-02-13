@@ -3,14 +3,14 @@ import "./HomePage.css"
 
 import ViewPlants from './ViewPlants';
 
-function HomePage( {currentUser, filterListedPlants, filterUserPlants} ) {
+function HomePage( {currentUser, filterListedPlants, filterUserPlants, getPlants, filterListedPlantsForUser} ) {
 
 // render if user is logged out
 
   if (!currentUser) {
     return (
     <div>
-        <h2>Listed Plants</h2>
+        <h2>Plants Listed for Trade</h2>
         <ViewPlants 
           allPlants={filterListedPlants()}
         />
@@ -22,16 +22,20 @@ function HomePage( {currentUser, filterListedPlants, filterUserPlants} ) {
 
   return (
     <div className="HomePage">
-        <h2>Listed Plants</h2>
+        <h2>Plants Listed for Trade</h2>
         <ViewPlants 
           allPlants={filterListedPlants()}
           filteredUserPlants={filterUserPlants(currentUser.id)}
+          getPlants={getPlants}
+          currentUser={currentUser.id}
+          filterListedPlantsForUser={filterListedPlantsForUser}
         />
         <br />
-        <h2>My Plants</h2>
+        <h2>My Plant Collection</h2>
         <ViewPlants 
           allPlants={filterUserPlants(currentUser.id)}
           currentUser={currentUser.id}
+          getPlants={getPlants}
         />
     </div>
   );

@@ -18,6 +18,14 @@ class Api::TradeListingsController < ApplicationController
         render json: listing
     end
 
+    def delete_for_plant
+        listing = TradeListing.find_by("plant_id = ?", params[:plant_id])
+        if listing
+            listing.destroy
+            render json: {}
+        end
+    end
+
     def create
         listing = TradeListing.create!(listing_params)
         render json: listing, status: :created
@@ -25,13 +33,14 @@ class Api::TradeListingsController < ApplicationController
 
     def update
         listing = find_listing
-        TradeListing.update(listing_params)
+        listing.update(listing_params)
         render json: listing
     end
 
-    def delete
+    def destroy
         listing = find_listing
-        TradeListing.destroy
+        listing.destroy
+        render json: {}
     end
 
     private
