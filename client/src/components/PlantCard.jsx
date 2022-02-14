@@ -7,7 +7,7 @@ import EditPlant from "./EditPlant";
 
 import "./PlantCard.css"
 
-function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, listed, plant, tradeForPlant, getPlants, filterListedPlantsForUser}) {
+function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, listed, plant, tradeForPlant, getPlants, filterListedPlantsForUser, profileUserId}) {
 
     const [tradeModal, setTradeModal] = useState(false);
     const [activePlant, setActivePlant] = useState(null);
@@ -275,14 +275,17 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                         filteredUserPlants={filteredUserPlants}
                         currentUser={currentUser}
                         filterListedPlantsForUser={filterListedPlantsForUser}
+
                     />
-                    <Button 
-                        variant="success" 
-                        onClick={goToUser}
-                        className="me-auto"
-                    >
-                        About User
-                    </Button>
+                    {userId !== profileUserId ? 
+                        <Button 
+                            variant="success" 
+                            onClick={goToUser}
+                            className="me-auto"
+                        >
+                            About User
+                        </Button>
+                    : null}
                 </Card.Footer>                    
                 :                     
                 <Card.Footer>

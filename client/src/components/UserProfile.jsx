@@ -109,6 +109,8 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
             <ViewPlants 
                 allPlants={filterListedPlantsForUser(user.id)}
                 currentUser={currentUser.id}
+                profileUserId={user.id}
+                filterListedPlantsForUser={filterListedPlantsForUser}
             />
         <Outlet />
         </div>
