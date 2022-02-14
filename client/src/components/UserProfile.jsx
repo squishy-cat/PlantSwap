@@ -9,6 +9,7 @@ import ViewPlants from "./ViewPlants";
 
 function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser, getPlants} ) {
     const [user, setUser] = useState(null)
+    // const [loaded, setLoaded] = useState(false)
     const navigate = useNavigate()
 
     let params = useParams();
@@ -18,25 +19,27 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
         navigate('/profile/edit')
     }
 
-    if(loaded===true && params.userId==="me") {
-        searchId = currentUser.id
-        } else if (loaded===true && params.userId!=="me") {
-        searchId = params.userId
-    }
-
     useEffect(() => {
+        if (params.userId==="me" && loaded===true) {
+            searchId = currentUser.id
+        }
+        else if (params.userId!=="me" && loaded===true){
+            searchId = params.userId
+        }
         fetch(`/api/users/${searchId}`)
         .then((res) => res.json())
         .then((user) => setUser(user))
-    },[loaded]);
-
-
-    if (!currentUser) {
+    },[loaded === true]);
+    
+    if (loaded===false) {
         return (
-            <div>Loading</div>
+            <div>
+                Loading...
+            </div>
         )
 
-    } else if (currentUser && currentUser.id != user.id) {
+    } else if (currentUser.id != user.id) {
+        // setLoaded(true)
         return (
             <div className="UserProfile">
             <Figure>
@@ -111,10 +114,10 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
         <Outlet />
         </div>
         )
-    }
-
+    } else if (currentUser.id==user.id)
     return (
         <div className="UserProfile">
+            {/* {setLoaded(true)} */}
             <Figure>
                 <Figure.Image
                     className="w-25 p-3"

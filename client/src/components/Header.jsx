@@ -4,7 +4,7 @@ import "./Header.css"
 import LoginForm from "./LoginForm";
 import NewPlant from "./NewPlant";
 
-import { Navbar, Container, Nav, Form, Button, FormControl, Image } from 'react-bootstrap'
+import { Navbar, Container, Nav, Button, Image } from 'react-bootstrap'
 
 import logo from '../assets/logo-seedling.jpg'
 
@@ -27,6 +27,11 @@ function Header(props) {
 
   const hideNewPlant = () => {
     setNewPlantModal(false)
+  }
+
+  const goToProfile = (e) => {
+    e.preventDefault();
+    window.location.href='/profile/me'
   }
 
   if (props.currentUser===null) {
@@ -114,7 +119,7 @@ return(
               navbarScroll
             >
               <Nav.Link href={`/trades/${props.currentUser.id}`}>My Trades</Nav.Link>
-              <Nav.Link href="/profile/me">My Profile</Nav.Link>
+              <Nav.Link onClick={goToProfile}>My Profile</Nav.Link>
               <NewPlant 
                 show={newPlantModal}
                 setShow={setNewPlantModal}
