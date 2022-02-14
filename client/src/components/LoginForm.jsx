@@ -14,6 +14,15 @@ function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
     password: "",
   });
 
+  const handleClose = () => {
+    onHideFunction();
+    setFormData({
+      name: "",
+      password: "",
+    });
+    setErrors();
+  }
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -96,7 +105,7 @@ function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
         </Modal.Body>
         <Modal.Footer>
           <Button 
-            onClick={onHideFunction}
+            onClick={handleClose}
             variant="outline-success"
           >
             Close
@@ -112,7 +121,6 @@ function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={signUp}
-      setSignUp={setSignUp}
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
