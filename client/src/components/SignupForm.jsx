@@ -2,12 +2,15 @@ import React, { useState } from "react";
 
 import { Button, Form } from 'react-bootstrap';
 
+import "./Signup.css"
+
 const SignupForm = ( {setCurrentUser, setModalShow} ) => {
   const [formData, setFormData] = useState({
     name: "",
     password: "",
     email: "",
   });
+  const [errors, setErrors] = useState([])
 
   const handleChange = (e) => {
     setFormData({
@@ -15,6 +18,7 @@ const SignupForm = ( {setCurrentUser, setModalShow} ) => {
       [e.target.name]: e.target.value,
     });
   };
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -34,7 +38,7 @@ const SignupForm = ( {setCurrentUser, setModalShow} ) => {
         });
       } else {
         res.json().then((errors) => {
-          console.error(errors);
+          setErrors(errors);
         });
       }
     });
@@ -75,6 +79,9 @@ const SignupForm = ( {setCurrentUser, setModalShow} ) => {
       >
         Submit
       </Button>
+      <div>
+        {errors ? errors.map(error => <p  id="error-message">{error}</p>) : null}
+      </div>
     </Form>
   );
 };

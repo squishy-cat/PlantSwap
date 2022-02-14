@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
 
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+
     def show
         if current_user
             render json: current_user, status: :ok
