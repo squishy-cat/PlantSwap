@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 
-    validates :name, :email, presence: true, uniqueness: true
+    validates :name, presence: true
+    validates :email, presence: true, uniqueness: {message: "%{value} already has an account. Please use a different email!"}
 
     has_secure_password
 

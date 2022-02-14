@@ -2,10 +2,13 @@ import React, { useState } from "react";
 
 import { Modal, Button, Form } from 'react-bootstrap';
 
+import "./Login.css"
+
 import SignupForm from "./SignupForm";
 
 function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
   const [signUp, setSignUp] = useState(false)
+  const [errors, setErrors] = useState()
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -34,7 +37,7 @@ function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
         });
       } else {
         res.json().then((errors) => {
-          console.error(errors);
+          setErrors(errors);
         });
       }
     });
@@ -72,6 +75,9 @@ function LoginForm({ show, setModalShow, onHideFunction, setCurrentUser }) {
                   value={formData.password}
                   onChange={handleChange}
                 />
+              <div>
+                {errors ? <div id="error-message"> {errors.error} </div> : null}
+              </div>
               </Form.Group>
               <Button 
                 type="submit" 
