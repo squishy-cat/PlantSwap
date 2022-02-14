@@ -9,7 +9,6 @@ import ViewPlants from "./ViewPlants";
 
 function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlantsForUser, getPlants} ) {
     const [user, setUser] = useState(null)
-    // const [loaded, setLoaded] = useState(false)
     const navigate = useNavigate()
 
     let params = useParams();

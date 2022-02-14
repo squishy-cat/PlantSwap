@@ -8,7 +8,7 @@ import { Navbar, Container, Nav, Button, Image } from 'react-bootstrap'
 
 import logo from '../assets/logo-seedling.jpg'
 
-function Header(props) {
+function Header({ currentUser, setCurrentUser, handleLogout, getPlants }) {
 
   const [modalShow, setModalShow] = useState(false);
   const [newPlantModal, setNewPlantModal] = useState(false);
@@ -34,7 +34,7 @@ function Header(props) {
     window.location.href='/profile/me'
   }
 
-  if (props.currentUser===null) {
+  if (currentUser===null) {
     return (
       <Navbar
         bg="light" 
@@ -80,7 +80,7 @@ function Header(props) {
               show={modalShow}
               setModalShow={setModalShow}
               onHideFunction={onHideFunction}
-              setCurrentUser = {props.setCurrentUser}
+              setCurrentUser = {setCurrentUser}
             >
             </LoginForm>
           </Navbar.Collapse>
@@ -118,14 +118,14 @@ return(
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link href={`/trades/${props.currentUser.id}`}>My Trades</Nav.Link>
+              <Nav.Link href={`/trades/${currentUser.id}`}>My Trades</Nav.Link>
               <Nav.Link onClick={goToProfile}>My Profile</Nav.Link>
               <NewPlant 
                 show={newPlantModal}
                 setShow={setNewPlantModal}
                 onHide={hideNewPlant}
-                currentUser={props.currentUser.id}
-                getPlants={props.getPlants}
+                currentUser={currentUser.id}
+                getPlants={getPlants}
               />
             </Nav>
             {/* <Form className="d-flex">
@@ -138,7 +138,7 @@ return(
               <Button variant="outline-success">Search</Button>
             </Form> */}
             <Button 
-              onClick={props.handleLogout}
+              onClick={handleLogout}
               className="mx-2"
               variant="success"
             >

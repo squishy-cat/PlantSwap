@@ -40,6 +40,7 @@ function App() {
             setCurrentUser(null)
           }
         })
+    .then (window.location.href="/")
   }
 
   const filterUserPlants = (userId) => {
