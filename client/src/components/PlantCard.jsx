@@ -60,7 +60,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
             .then((res) => res.json())
             .then((listing) => setTradePlantListing(listing))
         }
-    }, [])
+    }, [tradeForPlant])
 
     const createNewTradeOffer = () => {
         const offerParams = { ...tradeDetails }

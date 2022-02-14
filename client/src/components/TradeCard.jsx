@@ -154,7 +154,7 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                 </Card>
             </div>
         )
-    } else if (pending="acceptance") {
+    } else if (pending==="acceptance") {
         return (
             <div>
                 <Card 
