@@ -24,6 +24,7 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
                     })
             }
         })
+
         fetch(`../api/plants/${plantOffered.id}`, {
             method: "PATCH",
             headers: {
@@ -37,9 +38,10 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
             } else {
                 res.json().then((errors) => {
                     console.error(errors);
-                    })
-                }
+                })
+            }
         })
+
         fetch(`../api/plants/${plantWanted.id}`, {
             method: "PATCH",
             headers: {
@@ -47,22 +49,24 @@ function TradeCard( {plantOffered, plantWanted, userFrom, userTo, pending, trade
             },
             body: JSON.stringify({user_id: `${userFrom.id}`, listed: "false"}),
             })
-            .then((res) => {
-                if (res.ok) {
-                    res.json()
-                } else {
-                    res.json().then((errors) => {
-                        console.error(errors);
-                    })
-                }
-            })
-        }
+        .then((res) => {
+            if (res.ok) {
+                res.json()
+            } else {
+                res.json().then((errors) => {
+                    console.error(errors);
+                })
+            }
+        })
 
-        const declineOffer = () => {
-            fetch(`../api/trade_offers/${tradeId}`, {
-                method: "PATCH",
-                headers: {
-                "Content-Type" : "application/json"
+    }
+    
+
+    const declineOffer = () => {
+        fetch(`../api/trade_offers/${tradeId}`, {
+            method: "PATCH",
+            headers: {
+            "Content-Type" : "application/json"
             },
             body: JSON.stringify({declined: true})
         })

@@ -60,7 +60,7 @@ function EditProfile({ currentUser }) {
 
     return (
         <div>
-            <Form onSubmit={handleSubmit} className="mx-2">
+            <Form onSubmit={handleSubmit} className="mx-5" style={{ width: "50%" }}>
                 <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control 

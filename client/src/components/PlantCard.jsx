@@ -7,12 +7,11 @@ import EditPlant from "./EditPlant";
 
 import "./PlantCard.css"
 
-function PlantCard({name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, listed, plant, tradeForPlant, getPlants, filterListedPlantsForUser, profileUserId}) {
+function PlantCard({ name, img, phase, petSafe, careInstructions, userId, currentUser, filteredUserPlants, trading, listed, plant, tradeForPlant, getPlants, filterListedPlantsForUser, profileUserId }) {
 
     const [tradeModal, setTradeModal] = useState(false);
     const [activePlant, setActivePlant] = useState(null);
     const [tradePlantListing, setTradePlantListing] = useState(null);
-    const [tradeDetails, setTradeDetails] = useState({});
     const [showAlert, setShowAlert] = useState(false)
     const [showEdit, setShowEdit] = useState(false)
     
@@ -39,20 +38,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
     const hideEdit = () => {
         setActivePlant(null)
         setShowEdit(false)
-    }
-
-
-    const handleClick = () => {
-        setTradeDetails({
-            ...tradeDetails,
-            plant_offered_id: `${plant.id}`,
-            offer_from_id: `${plant.user_id}`,
-            plant_wanted_id: `${tradeForPlant.id}`,
-            offer_to_id: `${tradeForPlant.user_id}`,
-            trade_listing_id: `${tradePlantListing.id}`
-        });
-        createNewTradeOffer();
-    }
+    }  
 
     useEffect(() => {
         if(tradeForPlant) {
@@ -63,8 +49,13 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
     }, [tradeForPlant])
 
     const createNewTradeOffer = () => {
-        const offerParams = { ...tradeDetails }
-
+        const offerParams = {  
+            plant_offered_id: `${plant.id}`,
+            offer_from_id: `${plant.user_id}`,
+            plant_wanted_id: `${tradeForPlant.id}`,
+            offer_to_id: `${tradeForPlant.user_id}`,
+            trade_listing_id: `${tradePlantListing.id}`
+        }
         fetch("/api/trade_offers", {
             method: "POST",
             headers: {
@@ -138,7 +129,7 @@ function PlantCard({name, img, phase, petSafe, careInstructions, userId, current
                         <Button 
                             variant="outline-success"
                             className="me-5"
-                            onClick={handleClick}
+                            onClick={createNewTradeOffer}
                         >
                             Trade me!
                         </Button>

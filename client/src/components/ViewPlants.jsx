@@ -5,7 +5,7 @@ import { CardGroup } from 'react-bootstrap'
 
 import PlantCard from "./PlantCard";
 
-function ViewPlants({allPlants, currentUser, filteredUserPlants, trading, tradePlant, getPlants, filterListedPlantsForUser, profileUserId}) {
+function ViewPlants({ allPlants, currentUser, filteredUserPlants, trading, tradePlant, getPlants, filterListedPlantsForUser, profileUserId }) {
     
     return ( 
         <div>
