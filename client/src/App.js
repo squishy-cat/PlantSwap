@@ -17,13 +17,17 @@ function App() {
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
-        res.json().then((user) => {
-          setCurrentUser(user);
-          setLoaded(true)
-        });
+        res.json()
+        .then((user) => setCurrentUser(user))
+        .then(updateLoaded())
+        };
       }
-    });
+    )
   }, []);
+
+  const updateLoaded = () => {
+    setLoaded(true)
+  }
 
   const getPlants = () => {
     fetch("/api/plants")

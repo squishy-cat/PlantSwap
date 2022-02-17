@@ -26,13 +26,16 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
             searchId = params.userId
         }
         fetch(`/api/users/${searchId}`)
-        .then((res) => res.json())
-        .then((user) => setUser(user))
-    },[loaded, currentUser]);
+        .then((res) => {
+            if (res.ok) {
+                res.json()
+                .then((user) => setUser(user))
+            }
+        })
+    },[currentUser]);
     
-
     if (loaded===true) {
-        if (currentUser.id != user.id) {
+        if (user !==null && currentUser.id != user.id) {
             return (
                 <div className="UserProfile">
                 <Figure>
@@ -109,7 +112,7 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
                 <Outlet />
                 </div>
             )
-        } else if (currentUser.id==user.id) {
+        } else if (user !== null && currentUser.id==user.id) {
             return (
                 <div className="UserProfile">
                     <Figure>
@@ -193,7 +196,11 @@ function UserProfile( {currentUser, loaded, filterUserPlants, filterListedPlants
                 <Outlet />
                 </div>
             )
-        } 
+        } else {
+            return (
+                <div>Loading...</div>
+            )
+        }
     }else {
          return (
             <div>Loading...</div>
